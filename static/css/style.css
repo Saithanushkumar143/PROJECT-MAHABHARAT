@@ -1,0 +1,387 @@
+/* General Body Styling */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0d0d0d; /* Fallback background color */
+    background-image: url('krishna.png'); /* Replace with your actual image path */
+    background-size: cover; /* Make sure the image covers the whole screen */
+    background-repeat: no-repeat;
+    background-position: right center; /* Position image to the right center */
+    
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* Main Container */
+.container {
+    max-width: 700px; /* Increased container size */
+    width: 100%;
+    padding: 20px;
+    background-color: #1a1a1a; /* Dark background for container */
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(230, 62, 0, 0.4); /* Glowing effect */
+    text-align: center;
+    margin-top: 40px; /* You can adjust this if needed */
+}
+
+/* Header Styling */
+h1 {
+    color: #e63e00; /* Battle Flame color */
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Input Field */
+input[type="text"] {
+    width: 100%;
+    max-width: 650px; /* Adjusted for the larger container size */
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    background-color: #262626; /* Dark background */
+    color: #fff; /* White text */
+    outline: none; /* Remove focus outline */
+}
+
+/* Input Field Focus Effect */
+input[type="text"]:focus {
+    background-color: #333; /* Slightly lighter dark background on focus */
+}
+
+/* Button Styling */
+button {
+    background-color: #e63e00; /* Battle Flame color */
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+/* Button Hover Effect */
+button:hover {
+    background-color: #ff4500; /* Lighter orange on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+/* Result Box Styling */
+.result-box {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #141414; /* Dark background */
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(230, 62, 0, 0.3); /* Glowing effect */
+}
+
+/* Wisdom Card Titles (Lesson and Shloka) */
+.wisdom-card h2, .wisdom-card h3 {
+    color: #e63e00; /* Battle Flame color */
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+/* Wisdom Card Text */
+.wisdom-card p, .wisdom-card .shloka {
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+
+/* Shloka Styling */
+.shloka {
+    background-color: #e63e00; /* Battle Flame color */
+    color: #000; /* Dark text for contrast */
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center; /* Center text for better readability */
+}
+
+/* Loader Styling */
+#loader {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Reduced padding on smaller screens */
+        margin-top: 20px; /* Reduced top margin on smaller screens */
+    }
+
+    h1 {
+        font-size: 24px; /* Smaller font for mobile screens */
+    }
+
+    input[type="text"] {
+        padding: 12px; /* Adjust padding for mobile */
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+
+    button {
+        padding: 10px 20px; /* Adjust button size for mobile */
+        font-size: 14px; /* Adjust font size for mobile */
+    }
+}
+
+/* Basic Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background-color: #1a1a1a;
+    padding-top: 60px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: left;
+}
+
+.sidebar ul li a {
+    color: #e63e00;
+    text-decoration: none;
+}
+
+/* Hide sidebar initially */
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Top bar with hamburger icon */
+.topbar {
+    position: absolute; /* Positioning it above the content */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 12px 20px;
+    border-bottom: 2px solid #e63e00;
+    z-index: 1000;
+    display: flex;
+    align-items: center; /* Center vertically */
+}
+
+/* Align the hamburger icon to the left corner */
+.hamburger {
+    font-size: 26px;
+    cursor: pointer;
+    color: #e63e00;
+    margin-right: 20px;
+    margin-left: 10px; /* Add margin to push it slightly from the left */
+}
+
+/* Title container to center the title */
+.title-wrapper {
+    flex: 1;
+    text-align: center;
+}
+
+.title {
+    font-size: 1.6rem;
+    color: #e63e00;
+    margin: 0;
+}
+
+/* Adjustments to the sidebar to support the menu */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background-color: #1a1a1a;
+    padding-top: 60px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: left;
+}
+
+.sidebar ul li a {
+    color: #e63e00;
+    text-decoration: none;
+}
+
+/* Hide sidebar initially */
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+}
+
+.main-content.shifted {
+    margin-left: 220px;
+}
+
+.container {
+    max-width: 700px; /* Increased container size */
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+input[type="text"] {
+    padding: 12px 15px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 650px; /* Adjusted width for the larger container size */
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+button[type="submit"],
+button {
+    padding: 10px 18px;
+    background-color: #e63e00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #c53600;
+}
+
+/* Result Box */
+.result-box {
+    margin-top: 30px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(230, 62, 0, 0.5);
+}
+
+.wisdom-card h2,
+.wisdom-card h3 {
+    margin: 10px 0;
+    color: #ffddb3;
+}
+
+.shloka {
+    font-style: italic;
+    margin-top: 8px;
+    color: #c2b280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-content.shifted {
+        margin-left: 0;
+    }
+    .title-wrapper {
+        text-align: left;
+    }
+    .title {
+        font-size: 1.3rem;
+    }
+}
+.sidebar .logout {
+    margin-top: auto; /* Pushes logout button to the bottom */
+    padding: 15px 25px;
+    font-size: 16px;
+    background-color: #e63e00; /* Orange color for logout */
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .logout:hover {
+    background-color: #d15200; /* Darker orange on hover */
+}
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/* Pravachana Video Section Styling */
+.pravachana-section {
+    padding: 40px;
+    color: #fff;
+    text-align: center;
+}
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.video-card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 0 15px rgba(230, 62, 0, 0.4);
+    max-width: 320px;
+    margin-bottom: 30px;
+}
+
+.video-card h4 {
+    color: #e63e00;
+    margin: 10px 0 5px;
+    font-size: 18px;
+}
+
+.video-card p {
+    color: #ccc;
+    font-size: 14px;
+}
+
+/* Mobile Responsive Layout for Video Cards */
+@media (max-width: 768px) {
+    .video-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .video-card {
+        width: 100%;
+        max-width: 90%;
+    }
+}

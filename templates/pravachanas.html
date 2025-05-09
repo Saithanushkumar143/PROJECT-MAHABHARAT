@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahabharata Pravachanas</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d0d0d;
+      color: #fff;
+      overflow-y: auto;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: #e63e00;
+      text-align: center;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .video-card {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .video-card:hover {
+      transform: scale(1.03);
+    }
+
+    .video-thumbnail {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .video-info {
+      padding: 12px;
+    }
+
+    .video-title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .video-description {
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+
+    /* Scrollbar for nice touch */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .video-card {
+        height: auto;
+      }
+
+      .video-thumbnail {
+        height: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mahabharata Pravachanas</h1>
+    <div class="video-grid">
+      <!-- Sample Cards -->
+      <div class="video-card">
+        <img src="pravachana1.jpg" alt="Pravachana 1" class="video-thumbnail">
+        <div class="video-info">
+          <div class="video-title">Episode 1: The Beginning</div>
+          <div class="video-description">Introduction to the Mahabharata's wisdom.</div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <img src="pravachana2.jpg" alt="Pravachana 2" class="video-thumbnail">
+        <div class="video-info">
+          <div class="video-title">Episode 2: Dharma Explained</div>
+          <div class="video-description">Understanding Dharma in modern times.</div>
+        </div>
+      </div>
+
+      <!-- More cards as needed -->
+    </div>
+  </div>
+</body>
+</html>

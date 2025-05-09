@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahabharata Wisdom Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <div class="topbar">
+    <span class="hamburger">☰</span>
+    <h1 class="title">🕉️ Mahabharata Wisdom Finder 🕉️</h1>
+  </div>
+
+  <!-- Sidebar (overlays main content) -->
+  <div id="sidebar" class="sidebar hidden">
+    <ul>
+      <li><a href="/dashboard" onclick="navigate('home')">🏠 Home</a></li>
+      <li><a href="#" onclick="navigate('character')">🧝 Characters</a></li>
+      <li><a href="/pravachanas" onclick="navigate('pravachanas')">📜 Pravachanas</a></li>
+      <li><a href="#" onclick="navigate('settings')">⚙️ Settings</a></li>
+      <li><a href="#" onclick="navigate('profile')">👤 Profile</a></li>
+      <li><a href="#" onclick="navigate('about')">ℹ️ About</a></li>
+      <li><a href="/login" onclick="navigate('logout')">🚪 Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      <form id="queryForm">
+        <input type="text" id="queryInput" name="query" placeholder="Ask your question..." required>
+        <button type="submit">Get Wisdom</button>
+      </form>
+
+      <!-- Loader -->
+      <div id="loader" style="display:none; text-align:center; margin-top: 15px;">
+        <img src="{{ url_for('static', filename='images/om-loader.gif') }}" alt="Loading..." style="height: 60px;">
+        <p>Invoking wisdom from the scriptures...</p>
+      </div>
+
+      <!-- Result -->
+      <div id="result" class="result-box" style="display:none;">
+        <div class="wisdom-card">
+          <h2>Lesson</h2>
+          <p id="lessonText">Waiting for wisdom...</p>
+          <h3>Shloka</h3>
+          <div id="shlokaText" class="shloka">Waiting for shloka...</div>
+          <button onclick="handleSpeak()">🔊 Speak Lesson</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const hamburger = document.querySelector(".hamburger");
+
+    // Toggle sidebar
+    hamburger.addEventListener("click", function (e) {
+      e.stopPropagation();
+      sidebar.classList.toggle("hidden");
+    });
+
+    // Prevent clicks inside the sidebar from closing it
+    sidebar.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+
+    // Click outside sidebar to close
+    document.addEventListener("click", function () {
+      if (!sidebar.classList.contains("hidden")) {
+        sidebar.classList.add("hidden");
+      }
+    });
+
+    // ESC key closes sidebar
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !sidebar.classList.contains("hidden")) {
+        sidebar.classList.add("hidden");
+      }
+    });
+
+    // Navigation handler
+    function navigate(section) {
+      if (section === 'logout') {
+        window.location.href = '/login'; // Redirect to login
+      } else {
+        alert(`Navigating to ${section}...`);
+      }
+    }
+
+    // Wisdom form submission
+    document.getElementById('queryForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const query = document.getElementById('queryInput').value.trim();
+      const loader = document.getElementById('loader');
+      const resultBox = document.getElementById('result');
+
+      loader.style.display = 'block';
+      resultBox.style.display = 'none';
+
+      try {
+        const response = await fetch(`/get_wisdom?query=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        document.getElementById("lessonText").innerText = data.lesson || "No lesson found.";
+        document.getElementById("shlokaText").innerText = data.shloka || "No shloka available.";
+      } catch (error) {
+        document.getElementById("lessonText").innerText = "An error occurred.";
+        document.getElementById("shlokaText").innerText = "";
+      } finally {
+        loader.style.display = 'none';
+        resultBox.style.display = 'block';
+      }
+    });
+
+    // Text-to-speech
+    function handleSpeak() {
+      const lesson = document.getElementById("lessonText").innerText;
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(lesson);
+        utterance.lang = 'en-IN';
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        speechSynthesis.speak(utterance);
+      } else {
+        alert("Speech synthesis not supported in this browser.");
+      }
+    }
+  </script>
+</body>
+</html>

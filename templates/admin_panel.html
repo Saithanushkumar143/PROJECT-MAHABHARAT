@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Add Wisdom Entry</h2>
+        <form action="{{ url_for('admin_routes.add_wisdom') }}" method="POST">
+            <input type="text" name="scenario" placeholder="Scenario" required><br>
+            <input type="text" name="category" placeholder="Category" required><br>
+            <input type="text" name="characters" placeholder="Characters" required><br>
+            <textarea name="lesson" placeholder="Lesson" required></textarea><br>
+            <textarea name="shloka" placeholder="Shloka" required></textarea><br>
+            <button type="submit">Add Wisdom</button>
+        </form>
+    </div>
+</body>
+</html>
