@@ -1,21 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - KurukshetraMind</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/wisdom.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #1a1a1a;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 30px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #e63e00;
+      margin-bottom: 40px;
+    }
+
+    .nav-item {
+      padding: 15px 25px;
+      color: white;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: #e63e00;
+      color: white;
+    }
+
+    .welcome-banner {
+      position: fixed;
+      top: 0;
+      left: 240px;
+      width: calc(100% - 240px);
+      background-color: #0d0d0d;
+      padding: 20px 40px;
+      color: #e63e00;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 999;
+      box-shadow: 0 1px 10px rgba(230, 62, 0, 0.2);
+    }
+
+    .main-content {
+      margin-left: 240px;
+      padding: 100px 40px 40px;
+      width: calc(100% - 240px);
+    }
+
+    .section {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(230, 62, 0, 0.2);
+    }
+
+    .section h3 {
+      color: #e63e00;
+      margin-top: 0;
+    }
+
+    .btn {
+      background-color: #e63e00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #c03500;
+    }
+
+    .input-form input, .input-form select, .input-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .input-form label {
+      color: #e63e00;
+      font-weight: bold;
+      display: block;
+    }
+
+    .input-form button {
+      background-color: #e63e00;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .input-form button:hover {
+      background-color: #c03500;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .welcome-banner {
+        left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 100px 20px 20px;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Add Wisdom Entry</h2>
-        <form action="{{ url_for('admin_routes.add_wisdom') }}" method="POST">
-            <input type="text" name="scenario" placeholder="Scenario" required><br>
-            <input type="text" name="category" placeholder="Category" required><br>
-            <input type="text" name="characters" placeholder="Characters" required><br>
-            <textarea name="lesson" placeholder="Lesson" required></textarea><br>
-            <textarea name="shloka" placeholder="Shloka" required></textarea><br>
-            <button type="submit">Add Wisdom</button>
-        </form>
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <a href="#" class="nav-item active" id="dashboard">Dashboard</a>
+    <a href="#" class="nav-item" id="user-insights">User Insights</a>
+    <a href="#" class="nav-item" id="shloka-manager">Shloka Manager</a>
+    <a href="#" class="nav-item" id="pravachanas-manager">Pravachanas Manager</a>
+    <a href="/explore" class="nav-item">Logout</a>
+  </div>
+
+  <div class="welcome-banner">
+    Welcome back, YEGOTI SAI THANUSH KUMAR
+  </div>
+
+  <div class="main-content">
+    <div class="section" id="dashboard-section">
+      <h3>Dashboard Overview</h3>
+      <p>This is your command center. Feel the power of KurukshetraMind at your fingertips.</p>
+      <button class="btn">Refresh Data</button>
     </div>
+
+    <div class="section" id="user-insights-section">
+      <h3>Recent User Activity</h3>
+      <p>Tracking insights, requests, and interaction heatmaps.</p>
+    </div>
+
+    <div class="section" id="shloka-manager-section">
+      <h3>System Logs</h3>
+      <p>All backend activity logged with timestamps for oversight.</p>
+    </div>
+
+    <div class="section hidden" id="pravachanas-manager-section">
+      <h3>Input Pravachanas</h3>
+      <form class="input-form">
+        <label for="youtube-link">YouTube Video Link</label>
+        <input type="url" id="youtube-link" name="youtube-link" placeholder="Enter YouTube video link" required>
+
+        <label for="category">Character Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select a category</option>
+          <option value="Character1">Character1</option>
+          <option value="Character2">Character2</option>
+          <option value="Character3">Character3</option>
+        </select>
+
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" placeholder="Enter author name" required>
+
+        <button type="submit" class="btn">Submit Video</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript to toggle visibility between sections
+    const dashboardSection = document.getElementById("dashboard-section");
+    const userInsightsSection = document.getElementById("user-insights-section");
+    const shlokaManagerSection = document.getElementById("shloka-manager-section");
+    const pravachanasManagerSection = document.getElementById("pravachanas-manager-section");
+
+    document.getElementById("dashboard").addEventListener("click", () => {
+      dashboardSection.classList.remove("hidden");
+      userInsightsSection.classList.add("hidden");
+      shlokaManagerSection.classList.add("hidden");
+      pravachanasManagerSection.classList.add("hidden");
+    });
+
+    document.getElementById("user-insights").addEventListener("click", () => {
+      dashboardSection.classList.add("hidden");
+      userInsightsSection.classList.remove("hidden");
+      shlokaManagerSection.classList.add("hidden");
+      pravachanasManagerSection.classList.add("hidden");
+    });
+
+    document.getElementById("shloka-manager").addEventListener("click", () => {
+      dashboardSection.classList.add("hidden");
+      userInsightsSection.classList.add("hidden");
+      shlokaManagerSection.classList.remove("hidden");
+      pravachanasManagerSection.classList.add("hidden");
+    });
+
+    document.getElementById("pravachanas-manager").addEventListener("click", () => {
+      dashboardSection.classList.add("hidden");
+      userInsightsSection.classList.add("hidden");
+      shlokaManagerSection.classList.add("hidden");
+      pravachanasManagerSection.classList.remove("hidden");
+    });
+  </script>
+
+  <script>
+    document.querySelector('.input-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Get form data
+      const youtubeLink = document.getElementById('youtube-link').value;
+      const category = document.getElementById('category').value;
+      const author = document.getElementById('author').value;
+
+      // Create data object
+      const formData = {
+        youtube_link: youtubeLink,
+        category: category,
+        author: author
+      };
+
+      // Send POST request to the backend
+      fetch('/api/submit-pravachanas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Video successfully added!');
+        } else {
+          alert('There was an error. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred.');
+      });
+    });
+  </script>
+
 </body>
 </html>

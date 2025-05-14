@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session
 from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -45,9 +45,6 @@ def get_best_wisdom(user_input, wisdom_data):
 
 @dashboard_routes.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    if 'username' not in session:
-        return redirect(url_for('login_routes.login'))
-
     wisdom_result = None
 
     if request.method == 'POST':
@@ -55,4 +52,5 @@ def dashboard():
         wisdom_data = fetch_wisdom()
         wisdom_result = get_best_wisdom(query, wisdom_data)
 
-    return render_template('dashboard.html', username=session['username'], result=wisdom_result)
+    username = session.get('username', 'Guest')
+    return render_template('dashboard.html', username=username, result=wisdom_result)

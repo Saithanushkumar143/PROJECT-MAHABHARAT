@@ -11,12 +11,12 @@
         {% if error %}
             <p class="error-message">{{ error }}</p>
         {% endif %}
-        <form action="/login" method="POST">
+        <form action="{{ url_for('admin_routes.admin_login') }}" method="POST">
             <input type="text" id="username" name="username" placeholder="Username" required>
             <input type="password" id="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
-        <p>Don't have an account? <a href="/signup">Sign up here</a></p>
+        <p>Welcome back Boss</p>
     </div>
 </body>
 </html>

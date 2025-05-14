@@ -5,95 +5,297 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mahabharata Wisdom Dashboard</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-y: scroll;
+    }
+
+    .topbar {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1001;
+    }
+
+    .hamburger {
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .title {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #1a1a1a;
+      height: 100%;
+      position: fixed;
+      top: 70px;
+      left: -240px;
+      padding-top: 30px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      transition: left 0.3s ease-in-out;
+    }
+
+    .sidebar.hidden {
+      left: -240px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #e63e00;
+      margin-bottom: 40px;
+    }
+
+    .nav-item {
+      padding: 15px 25px;
+      color: white;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: #e63e00;
+      color: white;
+    }
+
+    .main-content {
+      margin-left: 240px;
+      padding: 40px;
+      width: calc(100% - 240px);
+      position: relative;
+      margin-top: 70px;
+    }
+
+    .container {
+      width: 871px;
+      height: 752px;
+      background-image: url("{{ url_for('static', filename='images/krishna.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: inherit;
+      filter: blur(5px);
+      z-index: -1;
+    }
+
+    .content-box {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 2px solid #e63e00;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #e63e00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #c03500;
+    }
+
+    .result-box {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .wisdom-card {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(230, 62, 0, 0.2);
+    }
+
+    .shloka {
+      font-style: italic;
+      color: #e63e00;
+    }
+
+    #loader {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    #loader img {
+      height: 60px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: relative;
+        left: 0;
+        height: auto;
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+    }
+
+    /* ===== Custom Scrollbar Styles ===== */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0d0d0d;
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #e63e00, #a52a00);
+      border-radius: 6px;
+      border: 2px solid #0d0d0d;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #ff5722, #e63e00);
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #e63e00 #0d0d0d;
+    }
+
+  </style>
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
   <div class="topbar">
     <span class="hamburger">☰</span>
     <h1 class="title">🕉️ Mahabharata Wisdom Finder 🕉️</h1>
   </div>
 
-  <!-- Sidebar (overlays main content) -->
   <div id="sidebar" class="sidebar hidden">
     <ul>
-      <li><a href="/dashboard" onclick="navigate('home')">🏠 Home</a></li>
-      <li><a href="#" onclick="navigate('character')">🧝 Characters</a></li>
-      <li><a href="/pravachanas" onclick="navigate('pravachanas')">📜 Pravachanas</a></li>
-      <li><a href="#" onclick="navigate('settings')">⚙️ Settings</a></li>
-      <li><a href="#" onclick="navigate('profile')">👤 Profile</a></li>
-      <li><a href="#" onclick="navigate('about')">ℹ️ About</a></li>
-      <li><a href="/login" onclick="navigate('logout')">🚪 Logout</a></li>
+      <li><a href="/dashboard" class="nav-item">🏠 Home</a></li>
+      <li><a href="#" class="nav-item">🧝 Characters</a></li>
+      <li><a href="/pravachanas" class="nav-item">📜 Pravachanas</a></li>
+      <li><a href="#" class="nav-item">⚙️ Settings</a></li>
+      <li><a href="/admin_panel" class="nav-item">👤 Profile</a></li>
+      <li><a href="#" class="nav-item">ℹ️ About</a></li>
+      <li><a href="/explore" class="nav-item">🚪 Logout</a></li>
     </ul>
   </div>
 
-  <!-- Main Content -->
   <div class="main-content">
     <div class="container">
-      <form id="queryForm">
-        <input type="text" id="queryInput" name="query" placeholder="Ask your question..." required>
-        <button type="submit">Get Wisdom</button>
-      </form>
+      <div class="content-box">
+        <form id="queryForm">
+          <input type="text" id="queryInput" name="query" placeholder="Ask your question..." required>
+          <button type="submit">Get Wisdom</button>
+        </form>
 
-      <!-- Loader -->
-      <div id="loader" style="display:none; text-align:center; margin-top: 15px;">
-        <img src="{{ url_for('static', filename='images/om-loader.gif') }}" alt="Loading..." style="height: 60px;">
-        <p>Invoking wisdom from the scriptures...</p>
-      </div>
+        <div id="loader" style="display:none;">
+          <img src="{{ url_for('static', filename='images/om-loader.gif') }}" alt="Loading...">
+          <p>Invoking wisdom from the scriptures...</p>
+        </div>
 
-      <!-- Result -->
-      <div id="result" class="result-box" style="display:none;">
-        <div class="wisdom-card">
-          <h2>Lesson</h2>
-          <p id="lessonText">Waiting for wisdom...</p>
-          <h3>Shloka</h3>
-          <div id="shlokaText" class="shloka">Waiting for shloka...</div>
-          <button onclick="handleSpeak()">🔊 Speak Lesson</button>
+        <div id="result" class="result-box" style="display:none;">
+          <div class="wisdom-card">
+            <h2>Lesson</h2>
+            <p id="lessonText">Waiting for wisdom...</p>
+            <h3>Shloka</h3>
+            <div id="shlokaText" class="shloka">Waiting for shloka...</div>
+            <button onclick="handleSpeak()">🔊 Speak Lesson</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Scripts -->
   <script>
     const sidebar = document.getElementById("sidebar");
     const hamburger = document.querySelector(".hamburger");
 
-    // Toggle sidebar
     hamburger.addEventListener("click", function (e) {
       e.stopPropagation();
-      sidebar.classList.toggle("hidden");
+      if (sidebar.classList.contains("hidden")) {
+        sidebar.classList.remove("hidden");
+        sidebar.style.left = '0';
+      } else {
+        sidebar.classList.add("hidden");
+        sidebar.style.left = '-240px';
+      }
     });
 
-    // Prevent clicks inside the sidebar from closing it
     sidebar.addEventListener("click", function (e) {
       e.stopPropagation();
     });
 
-    // Click outside sidebar to close
     document.addEventListener("click", function () {
       if (!sidebar.classList.contains("hidden")) {
         sidebar.classList.add("hidden");
+        sidebar.style.left = '-240px';
       }
     });
 
-    // ESC key closes sidebar
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && !sidebar.classList.contains("hidden")) {
         sidebar.classList.add("hidden");
+        sidebar.style.left = '-240px';
       }
     });
 
-    // Navigation handler
-    function navigate(section) {
-      if (section === 'logout') {
-        window.location.href = '/login'; // Redirect to login
-      } else {
-        alert(`Navigating to ${section}...`);
-      }
-    }
-
-    // Wisdom form submission
     document.getElementById('queryForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
@@ -118,7 +320,6 @@
       }
     });
 
-    // Text-to-speech
     function handleSpeak() {
       const lesson = document.getElementById("lessonText").innerText;
       if ('speechSynthesis' in window) {
