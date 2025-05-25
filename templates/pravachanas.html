@@ -220,12 +220,48 @@
       opacity: 1;
       pointer-events: all;
     }
+    #homeButton {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  background-color: #e63e00;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 0 10px #e63e00;
+  z-index: 10000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+#homeButton:hover {
+  background-color: #ff5400;
+  box-shadow: 0 0 16px #ff5400;
+}
+#homeButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+
   </style>
 </head>
 <body>
+    <a href="/dashboard" id="homeButton" aria-label="Go to Dashboard">
+      <svg viewBox="0 0 24 24" fill="white">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </a>
 
   <div class="container" id="mainContainer">
     <h1>Mahabharata Pravachanas</h1>
+<a href="/dashboard" id="homeButton" aria-label="Go to Dashboard">
+  <svg viewBox="0 0 24 24" fill="white">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+</a>
 
     <div class="search-clear-wrapper">
       <input type="text" id="searchInput" placeholder="Search videos..." autocomplete="off" />

@@ -220,7 +220,7 @@
 
   <div class="topbar">
     <span class="hamburger">☰</span>
-    <h1 class="title">🕉️ Mahabharata Wisdom Finder 🕉️</h1>
+    <h1 class="title">🕉️ KurukshetraMind 🕉️</h1>
   </div>
 
   <div id="sidebar" class="sidebar hidden">
@@ -228,9 +228,9 @@
       <li><a href="/dashboard" class="nav-item">🏠 Home</a></li>
       <li><a href="/feeling_manager" class="nav-item">🧝 Self Management</a></li>
       <li><a href="/pravachanas" class="nav-item">📜 Pravachanas</a></li>  
-      <li><a href="#" class="nav-item">⚙️ Settings</a></li>
-      <li><a href="/admin_panel" class="nav-item">👤 Profile</a></li>
-      <li><a href="#" class="nav-item">ℹ️ About</a></li>
+      <li><a href="#" class="nav-item" id="settings-link">⚙️ Settings</a></li>
+      <li><a href="#" class="nav-item" id="profile-link">👤 Profile</a></li>
+      <li><a href="/about" class="nav-item">ℹ️ About</a></li>
       <li><a href="/explore" class="nav-item">🚪 Logout</a></li>
     </ul>
   </div>
@@ -248,7 +248,7 @@
           <p>Invoking wisdom from the scriptures...</p>
         </div>
 
-        <div id="result" class="result-box" style="display:none;">
+        <div id="result" class="result-box">
           <div class="wisdom-card">
             <h2>Lesson</h2>
             <p id="lessonText">Waiting for wisdom...</p>
@@ -259,6 +259,11 @@
         </div>
       </div>
     </div>
+
+    <div class="section hidden" id="under-dev-section" style="margin-top: 30px; text-align: center;">
+      <h3>🛠️ Feature Under Development</h3>
+      <p>This feature is currently being forged in the fires of Kurukshetra. Please check back later.</p>
+    </div>
   </div>
 
   <script>
@@ -267,13 +272,8 @@
 
     hamburger.addEventListener("click", function (e) {
       e.stopPropagation();
-      if (sidebar.classList.contains("hidden")) {
-        sidebar.classList.remove("hidden");
-        sidebar.style.left = '0';
-      } else {
-        sidebar.classList.add("hidden");
-        sidebar.style.left = '-240px';
-      }
+      sidebar.classList.toggle("hidden");
+      sidebar.style.left = sidebar.classList.contains("hidden") ? '-240px' : '0';
     });
 
     sidebar.addEventListener("click", function (e) {
@@ -331,6 +331,25 @@
         alert("Speech synthesis not supported in this browser.");
       }
     }
+
+    const settingsLink = document.getElementById("settings-link");
+    const profileLink = document.getElementById("profile-link");
+    const underDevSection = document.getElementById("under-dev-section");
+
+    function showUnderDevMessage() {
+      underDevSection.classList.remove("hidden");
+      underDevSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    settingsLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      showUnderDevMessage();
+    });
+
+    profileLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      showUnderDevMessage();
+    });
   </script>
 </body>
 </html>

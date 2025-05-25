@@ -57,6 +57,9 @@ def admin_menu():
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 @app.route('/explore')
 def explore():
     return render_template('explore.html')
