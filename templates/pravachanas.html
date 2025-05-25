@@ -2,33 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mahabharata Pravachanas</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
-
     body {
       font-family: Arial, sans-serif;
       background-color: #0d0d0d;
       color: #fff;
-      overflow-y: auto;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
-
     .container {
       max-width: 1440px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 20px 24px 40px 24px;
     }
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       color: #e63e00;
       text-align: center;
+      user-select: none;
+    }
+
+    .search-clear-wrapper {
+      max-width: 450px;
+      margin: 0 auto 28px auto;
+      display: flex;
+      gap: 10px;
+    }
+    #searchInput {
+      flex-grow: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #1a1a1a;
+      color: #eee;
+      font-size: 1rem;
+      box-shadow: inset 0 0 6px #333;
+    }
+    #searchInput:focus {
+      outline: none;
+      background-color: #2b2b2b;
+    }
+    #clearFilters {
+      background-color: #e63e00;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 0 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+    #clearFilters:hover {
+      background-color: #ff5400;
     }
 
     .video-grid {
@@ -36,53 +70,33 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
-
     .video-card {
       background-color: #1a1a1a;
       border-radius: 10px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s ease-in-out;
+      box-shadow: 0 0 6px #222 inset;
     }
-
     .video-card:hover {
       transform: scale(1.03);
+      box-shadow: 0 0 12px #e63e00;
     }
-
     .video-thumbnail {
       width: 100%;
-      height: auto;
-      display: block;
     }
-
     .video-info {
       padding: 12px;
     }
-
     .video-title {
       font-size: 1rem;
       font-weight: bold;
       margin-bottom: 4px;
-      color: #ffffff;
+      color: #fff;
     }
-
     .video-description {
       font-size: 0.85rem;
       color: #ccc;
-    }
-
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #555;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #777;
     }
 
     @media (max-width: 1024px) {
@@ -90,57 +104,240 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
-
     @media (max-width: 600px) {
       h1 {
         font-size: 1.5rem;
       }
-
       .video-grid {
         grid-template-columns: 1fr;
       }
+      .container {
+        padding: 20px 12px 40px 12px;
+      }
+      .search-clear-wrapper {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+
+    #filterToggle {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #e63e00;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #e63e00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #filterToggle:hover {
+      background-color: #ff5400;
+      box-shadow: 0 0 16px #ff5400;
+    }
+    #filterToggle svg {
+      fill: white;
+      width: 24px;
+      height: 24px;
+    }
+
+    #filterPanel {
+      position: fixed;
+      top: 0;
+      right: -360px;
+      width: 360px;
+      height: 100vh;
+      background: #121212;
+      box-shadow: -3px 0 20px rgba(230, 62, 0, 0.85);
+      padding: 24px 20px 40px 20px;
+      transition: right 0.35s ease;
+      z-index: 9998;
+      overflow-y: auto;
+    }
+    #filterPanel.open {
+      right: 0;
+    }
+    #filterPanel h2 {
+      font-size: 1.6rem;
+      margin-bottom: 28px;
+      color: #e63e00;
+      text-align: center;
+    }
+
+    .filter-section {
+      margin-bottom: 32px;
+    }
+    .filter-section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+      color: #f26a1c;
+      border-bottom: 1px solid #e63e00;
+      padding-bottom: 6px;
+    }
+
+    .checkbox-list {
+      max-height: 200px;
+      overflow-y: auto;
+      border-radius: 8px;
+      background: #1e1e1e;
+      padding: 12px;
+      box-shadow: inset 0 0 10px #000000;
+    }
+
+    .checkbox-list label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #eee;
+    }
+
+    .checkbox-list input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 9997;
+    }
+    #overlay.active {
+      opacity: 1;
+      pointer-events: all;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <div class="container" id="mainContainer">
     <h1>Mahabharata Pravachanas</h1>
-    <div class="video-grid">
-      <!-- Video 1 -->
-      <div class="video-card">
-        <a href="https://youtu.be/SpuWnbaQ7s4?si=9CsyAm0QWY9Hw1ua" target="_blank">
-          <img class="video-thumbnail" src="https://img.youtube.com/vi/SpuWnbaQ7s4/hqdefault.jpg" alt="Episode 1">
-        </a>
-        <div class="video-info">
-          <div class="video-title">Episode 1: The Beginning</div>
-          <div class="video-description">Introduction to the Mahabharata's wisdom.</div>
-        </div>
-      </div>
 
-      <!-- Video 2 -->
-      <div class="video-card">
-        <a href="https://youtu.be/7tOWbpFvcug?si=xbgKRdZBhgTnBg2h" target="_blank">
-          <img class="video-thumbnail" src="https://img.youtube.com/vi/7tOWbpFvcug/hqdefault.jpg" alt="Sri Krishna">
-        </a>
-        <div class="video-info">
-          <div class="video-title">Sri Krishna Paripurna Avatar</div>
-          <div class="video-description">by Sri Chaganti Garu</div>
-        </div>
-      </div>
+    <div class="search-clear-wrapper">
+      <input type="text" id="searchInput" placeholder="Search videos..." autocomplete="off" />
+      <button id="clearFilters">Clear Filters</button>
+    </div>
 
-      <!-- Video 3 -->
-      <div class="video-card">
-        <a href="https://youtu.be/FpuBhQfdDJ4?si=56rMnQ16DnGocd0e" target="_blank">
-          <img class="video-thumbnail" src="https://img.youtube.com/vi/FpuBhQfdDJ4/hqdefault.jpg" alt="Karna">
-        </a>
-        <div class="video-info">
-          <div class="video-title">The Actual Life of Karna</div>
-          <div class="video-description">Exploring the life of Karna.</div>
+    <div class="video-grid" id="videoGrid">
+      {% for video in pravachanas %}
+        <div class="video-card"
+             data-category="{{ video.category | lower }}"
+             data-author="{{ video.author | lower }}"
+             data-title="{{ (video.category + ' ' + video.author) | lower }}">
+          <a href="https://youtu.be/{{ video.video_id }}" target="_blank">
+            <img class="video-thumbnail" src="https://img.youtube.com/vi/{{ video.video_id }}/hqdefault.jpg" alt="Thumbnail for {{ video.category }}">
+          </a>
+          <div class="video-info">
+            <h3 class="video-title">{{ video.category }}</h3>
+            <p class="video-description">By {{ video.author }}</p>
+          </div>
         </div>
-      </div>
-
-      <!-- You can add more cards below by repeating the structure -->
+      {% endfor %}
     </div>
   </div>
+
+  <button id="filterToggle" aria-label="Toggle filter panel">
+    <svg viewBox="0 0 24 24"><path d="M3 5h18v2H3zM6 11h12v2H6zM10 17h4v2h-4z" /></svg>
+  </button>
+
+  <aside id="filterPanel">
+    <h2>Filters</h2>
+    <section class="filter-section">
+      <h3>Characters</h3>
+      <div class="checkbox-list" id="characterFilters"></div>
+    </section>
+    <section class="filter-section">
+      <h3>Authors</h3>
+      <div class="checkbox-list" id="authorFilters"></div>
+    </section>
+  </aside>
+
+  <div id="overlay"></div>
+
+  <script>
+    const filterToggle = document.getElementById('filterToggle');
+    const filterPanel = document.getElementById('filterPanel');
+    const overlay = document.getElementById('overlay');
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearFilters');
+    const videoGrid = document.getElementById('videoGrid');
+    const videos = Array.from(videoGrid.children);
+
+    const charactersSet = new Set();
+    const authorsSet = new Set();
+
+    videos.forEach(video => {
+      charactersSet.add(video.dataset.category);
+      authorsSet.add(video.dataset.author);
+    });
+
+    function createCheckbox(id, name, value) {
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = id;
+      checkbox.name = name;
+      checkbox.value = value;
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(value.charAt(0).toUpperCase() + value.slice(1)));
+      return label;
+    }
+
+    const characterContainer = document.getElementById('characterFilters');
+    Array.from(charactersSet).sort().forEach(char => {
+      characterContainer.appendChild(createCheckbox('char-' + char, 'character', char));
+    });
+
+    const authorContainer = document.getElementById('authorFilters');
+    Array.from(authorsSet).sort().forEach(auth => {
+      authorContainer.appendChild(createCheckbox('auth-' + auth, 'author', auth));
+    });
+
+    function filterVideos() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const selectedChars = Array.from(document.querySelectorAll('input[name="character"]:checked')).map(cb => cb.value);
+      const selectedAuthors = Array.from(document.querySelectorAll('input[name="author"]:checked')).map(cb => cb.value);
+
+      videos.forEach(video => {
+        const matchSearch = video.dataset.title.includes(searchTerm);
+        const matchChar = selectedChars.length === 0 || selectedChars.includes(video.dataset.category);
+        const matchAuth = selectedAuthors.length === 0 || selectedAuthors.includes(video.dataset.author);
+        video.style.display = (matchSearch && matchChar && matchAuth) ? 'flex' : 'none';
+      });
+    }
+
+    filterToggle.onclick = () => {
+      filterPanel.classList.toggle('open');
+      overlay.classList.toggle('active');
+    };
+    overlay.onclick = () => {
+      filterPanel.classList.remove('open');
+      overlay.classList.remove('active');
+    };
+    searchInput.oninput = filterVideos;
+    filterPanel.addEventListener('change', filterVideos);
+    clearBtn.onclick = () => {
+      searchInput.value = '';
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      filterVideos();
+    };
+
+    // Show all videos by default
+    window.onload = () => filterVideos();
+  </script>
 </body>
 </html>
