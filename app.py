@@ -7,7 +7,7 @@ import traceback
 
 # --- Flask App Setup ---
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'  # Replace this with a secure value in production
+app.secret_key = '8b28c742ea3a493d97bfb5f705e6ef61b19d2231'  # Replace this with a secure value in production
 
 # --- MongoDB Setup ---
 client = MongoClient("mongodb://localhost:27017/")
