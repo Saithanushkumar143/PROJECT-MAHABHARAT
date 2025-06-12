@@ -10,7 +10,7 @@ wisdom_routes = Blueprint('wisdom_routes', __name__)
 
 # MongoDB setup
 client = MongoClient("mongodb://localhost:27017/")
-db = client["MahabharataWisdom"]
+db = client["kurukshetramind"]
 collection = db["wisdom"]
 
 # Fetch all wisdom entries

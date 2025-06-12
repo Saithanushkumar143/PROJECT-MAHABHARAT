@@ -9,7 +9,7 @@ dashboard_routes = Blueprint('dashboard_routes', __name__)
 
 # MongoDB Connection
 client = MongoClient("mongodb://localhost:27017/")
-db = client["MahabharataWisdom"]
+db = client["kurukshetramind"]
 collection = db["wisdom"]
 
 # Fetch wisdom data

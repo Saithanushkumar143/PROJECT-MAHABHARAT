@@ -2,7 +2,7 @@ from pymongo import MongoClient
 
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")  
-db = client["MahabharataWisdom"]  
+db = client["kurukshetramind"]  
 collection = db["wisdom"]  
 
 # Sample Entries
