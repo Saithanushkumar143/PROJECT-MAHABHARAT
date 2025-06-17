@@ -47,10 +47,16 @@ def get_best_wisdom(user_input, wisdom_data):
             "characters": best_match["characters"],
             "lesson": best_match["lesson"],
             "shloka": best_match.get("shloka", "No shloka available"),
+            "response": best_match.get("response", "No response available."),
             "similarity_score": float(best_score)
         }
     else:
-        return {"error": "No relevant wisdom found. Try a different query."}
+        return {
+            "lesson": "No lesson found.",
+            "shloka": "No shloka available.",
+            "response": "No response available.",
+            "error": "No relevant wisdom found. Try a different query."
+        }
 
 # UI route
 @wisdom_routes.route('/wisdom')
@@ -66,7 +72,12 @@ def get_wisdom():
         user_input = request.args.get("query", "")
 
     if not user_input:
-        return jsonify({"error": "No query provided."})
+        return jsonify({
+            "lesson": "No lesson found.",
+            "shloka": "No shloka available.",
+            "response": "No response available.",
+            "error": "No query provided."
+        })
 
     wisdom_data = fetch_wisdom()
     result = get_best_wisdom(user_input, wisdom_data)

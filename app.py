@@ -45,6 +45,9 @@ def home():
 def signup():
     return render_template('signup.html')
 
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 @app.route('/user_menu')
 def user_menu():
     return redirect(url_for('dashboard_routes.dashboard'))

@@ -19,6 +19,11 @@
       overflow-y: scroll;
     }
 
+    .light-mode {
+      background-color: #fff !important;
+      color: #111 !important;
+    }
+
     .topbar {
       background-color: #1a1a1a;
       color: white;
@@ -31,6 +36,14 @@
       top: 0;
       left: 0;
       z-index: 1001;
+    }
+
+    .light-mode .topbar,
+    .light-mode .sidebar,
+    .light-mode .wisdom-card,
+    .light-mode .content-box {
+      background-color: #fff !important;
+      color: #111 !important;
     }
 
     .hamburger {
@@ -63,9 +76,7 @@
     }
 
     .sidebar h2 {
-      text-align: center;
-      color: #e63e00;
-      margin-bottom: 40px;
+      display: none;
     }
 
     .nav-item {
@@ -79,6 +90,16 @@
     .nav-item:hover, .nav-item.active {
       background-color: #e63e00;
       color: white;
+    }
+
+    .light-mode .nav-item {
+      color: #111 !important;
+    }
+
+    .light-mode .nav-item:hover, 
+    .light-mode .nav-item.active {
+      background-color: #e63e00 !important;
+      color: #fff !important;
     }
 
     .main-content {
@@ -133,6 +154,12 @@
       font-size: 1em;
     }
 
+    .light-mode input[type="text"] {
+      background-color: #f9f9f9 !important;
+      color: #111 !important;
+      border: 2px solid #e63e00 !important;
+    }
+
     button {
       background-color: #e63e00;
       color: white;
@@ -156,12 +183,26 @@
       background-color: #1a1a1a;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(230, 62, 0, 0.2);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    #promptHeading {
+      background: #e63e00;
+      color: #fff;
+      padding: 10px 0;
+      border-radius: 6px;
+      margin-bottom: 18px;
     }
 
     .shloka {
       font-style: italic;
-      color: #e63e00;
+      color: inherit;
+      background: none !important;
+    }
+
+    .light-mode .shloka {
+      color: inherit !important;
+      background: none !important;
     }
 
     #loader {
@@ -206,13 +247,20 @@
       border: 2px solid #0d0d0d;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #ff5722, #e63e00);
+    .light-mode ::-webkit-scrollbar-track {
+      background: #fff !important;
+    }
+
+    .light-mode ::-webkit-scrollbar-thumb {
+      border: 2px solid #fff !important;
     }
 
     * {
       scrollbar-width: thin;
       scrollbar-color: #e63e00 #0d0d0d;
+    }
+    .light-mode * {
+      scrollbar-color: #e63e00 #fff !important;
     }
   </style>
 </head>
@@ -228,7 +276,7 @@
       <li><a href="/dashboard" class="nav-item">🏠 Home</a></li>
       <li><a href="/feeling_manager" class="nav-item">🧝 Self Management</a></li>
       <li><a href="/pravachanas" class="nav-item">📜 Pravachanas</a></li>  
-      <li><a href="#" class="nav-item" id="settings-link">⚙️ Settings</a></li>
+      <li><a href="/settings" class="nav-item" id="settings-link">⚙️ Settings</a></li>
       <li><a href="#" class="nav-item" id="profile-link">👤 Profile</a></li>
       <li><a href="/about" class="nav-item">ℹ️ About</a></li>
       <li><a href="/explore" class="nav-item">🚪 Logout</a></li>
@@ -238,31 +286,29 @@
   <div class="main-content">
     <div class="container">
       <div class="content-box">
-        <form id="queryForm">
-          <input type="text" id="queryInput" name="query" placeholder="Ask your question..." required>
-          <button type="submit">Get Wisdom</button>
-        </form>
-
-        <div id="loader" style="display:none;">
-          <img src="{{ url_for('static', filename='images/om-loader.gif') }}" alt="Loading...">
-          <p>Invoking wisdom from the scriptures...</p>
-        </div>
-
         <div id="result" class="result-box">
           <div class="wisdom-card">
-            <h2>Lesson</h2>
+            <h2 id="promptHeading">Waiting for your question...</h2>
+            <h3>Response</h3>
+            <div id="responseText">Waiting for response...</div>
+            <h3>Lesson</h3>
             <p id="lessonText">Waiting for wisdom...</p>
             <h3>Shloka</h3>
             <div id="shlokaText" class="shloka">Waiting for shloka...</div>
             <button onclick="handleSpeak()">🔊 Speak Lesson</button>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="section hidden" id="under-dev-section" style="margin-top: 30px; text-align: center;">
-      <h3>🛠️ Feature Under Development</h3>
-      <p>This feature is currently being forged in the fires of Kurukshetra. Please check back later.</p>
+        <div id="loader" style="display:none;">
+          <img src="{{ url_for('static', filename='images/om-loader.gif') }}" alt="Loading...">
+          <p>Invoking wisdom from the scriptures...</p>
+        </div>
+
+        <form id="queryForm" style="margin-top: 30px;">
+          <input type="text" id="queryInput" name="query" placeholder="Ask your question..." required>
+          <button type="submit">Get Wisdom</button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -274,10 +320,6 @@
       e.stopPropagation();
       sidebar.classList.toggle("hidden");
       sidebar.style.left = sidebar.classList.contains("hidden") ? '-240px' : '0';
-    });
-
-    sidebar.addEventListener("click", function (e) {
-      e.stopPropagation();
     });
 
     document.addEventListener("click", function () {
@@ -300,6 +342,7 @@
       const query = document.getElementById('queryInput').value.trim();
       const loader = document.getElementById('loader');
       const resultBox = document.getElementById('result');
+      const promptHeading = document.getElementById('promptHeading');
 
       loader.style.display = 'block';
       resultBox.style.display = 'none';
@@ -307,19 +350,25 @@
       try {
         const response = await fetch(`/get_wisdom?query=${encodeURIComponent(query)}`);
         const data = await response.json();
+        promptHeading.innerText = query || "Your Question";
         document.getElementById("lessonText").innerText = data.lesson || "No lesson found.";
         document.getElementById("shlokaText").innerText = data.shloka || "No shloka available.";
+        document.getElementById("responseText").innerText = data.response || "No response available.";
       } catch (error) {
+        promptHeading.innerText = query || "Your Question";
         document.getElementById("lessonText").innerText = "An error occurred.";
         document.getElementById("shlokaText").innerText = "";
+        document.getElementById("responseText").innerText = "";
       } finally {
         loader.style.display = 'none';
         resultBox.style.display = 'block';
+        document.getElementById('queryInput').value = '';
+        document.getElementById('queryInput').focus();
       }
     });
 
     function handleSpeak() {
-      const lesson = document.getElementById("lessonText").innerText;
+      const lesson = document.getElementById("responseText").innerText;
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(lesson);
         utterance.lang = 'en-IN';
@@ -332,24 +381,22 @@
       }
     }
 
-    const settingsLink = document.getElementById("settings-link");
-    const profileLink = document.getElementById("profile-link");
-    const underDevSection = document.getElementById("under-dev-section");
+    document.getElementById("settings-link").addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.href = "/settings";
+    });
 
-    function showUnderDevMessage() {
-      underDevSection.classList.remove("hidden");
-      underDevSection.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("profile-link").addEventListener("click", function (e) {
+      e.preventDefault();
+      alert("👤 Profile feature is coming soon!");
+    });
+
+    // 🌗 Apply Theme on Load
+    const savedMode = localStorage.getItem("mode") || "dark";
+    if (savedMode === "light") {
+      document.body.classList.add("light-mode");
     }
-
-    settingsLink.addEventListener("click", function (e) {
-      e.preventDefault();
-      showUnderDevMessage();
-    });
-
-    profileLink.addEventListener("click", function (e) {
-      e.preventDefault();
-      showUnderDevMessage();
-    });
   </script>
+
 </body>
 </html>
