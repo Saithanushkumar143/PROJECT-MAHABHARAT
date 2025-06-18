@@ -19,6 +19,7 @@
       max-width: 1200px;
       margin: auto;
       padding: 40px 24px;
+      display: none;
     }
 
     h1 {
@@ -88,7 +89,6 @@
       color: #ccc;
     }
 
-    /* Home button styling */
     .home-button {
       position: fixed;
       top: 20px;
@@ -112,69 +112,121 @@
       color: #fff;
       background-color: #ff5722;
     }
+
+    /* Loader */
+    .loader-wrapper {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #0d0d0d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .dot-loader {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot-loader div {
+      width: 14px;
+      height: 14px;
+      background-color: #e63e00;
+      border-radius: 50%;
+      animation: bounce 0.6s infinite alternate;
+    }
+
+    .dot-loader div:nth-child(2) { animation-delay: 0.1s; }
+    .dot-loader div:nth-child(3) { animation-delay: 0.2s; }
+    .dot-loader div:nth-child(4) { animation-delay: 0.3s; }
+
+    @keyframes bounce {
+      to {
+        transform: translateY(-12px);
+        opacity: 0.6;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Home button -->
-  <a href="/dashboard" class="home-button" title="Go to Dashboard">
-    <i class="bi bi-house-fill"></i>
-  </a>
 
-  <div class="container">
-    <h1>Explore Pravachanas by Feelings</h1>
+<!-- Loader -->
+<div class="loader-wrapper" id="page-loader">
+  <div class="dot-loader">
+    <div></div><div></div><div></div><div></div>
+  </div>
+</div>
 
-    <!-- Feeling selector -->
-    <div class="feeling-grid">
-      <div class="feeling-box" data-feeling="Anger">😡 Anger</div>
-      <div class="feeling-box" data-feeling="Sadness">😢 Sadness</div>
-      <div class="feeling-box" data-feeling="Loneliness">😔   Loneliness</div>
-      <div class="feeling-box" data-feeling="Revenge">😠   Revenge</div>
-      <div class="feeling-box" data-feeling="Fear">😨  Fear</div>
-      <div class="feeling-box" data-feeling="Happiness">😊     Happiness</div>
-      <div class="feeling-box" data-feeling="Love">❤️  Love</div>
-      <div class="feeling-box" data-feeling="Comparison">😒 Comparison</div>
-      <div class="feeling-box" data-feeling="Wisdom">😇  Wisdom</div>
-      <div class="feeling-box" data-feeling="Gratitude">🙏   Gratitude</div>
-      <div class="feeling-box" data-feeling="Hope">🌟   Hope</div>
-      <div class="feeling-box" data-feeling="Confidence">💪 Confidence</div>
-      <div class="feeling-box" data-feeling="Motivation">🚀 Motivation</div>
-      <div class="feeling-box" data-feeling="Inspiration">✨     Inspiration</div>
-      <div class="feeling-box" data-feeling="Comparison">🧠     Comparison</div>
-      <div class="feeling-box" data-feeling="All">🌈 Show All</div>
-    </div>
+<!-- Home button -->
+<a href="/dashboard" class="home-button" title="Go to Dashboard">
+  <i class="bi bi-house-fill"></i>
+</a>
 
-    <!-- Videos -->
-    <div class="video-grid" id="videoGrid">
-      {% for item in pravachanas %}
-        <div class="video-card" data-feeling="{{ item.feeling|default('') }}">
-          <iframe src="https://www.youtube.com/embed/{{ item.video_id }}" frameborder="0" allowfullscreen></iframe>
-          <div class="video-info">
-            <div class="video-title">{{ item.category }}</div>
-            <div class="video-description">By {{ item.author }}</div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
+<div class="container" id="main-content">
+  <h1>Explore Pravachanas by Feelings</h1>
+
+  <!-- Feeling selector -->
+  <div class="feeling-grid">
+    <div class="feeling-box" data-feeling="Anger">😡 Anger</div>
+    <div class="feeling-box" data-feeling="Sadness">😢 Sadness</div>
+    <div class="feeling-box" data-feeling="Loneliness">😔 Loneliness</div>
+    <div class="feeling-box" data-feeling="Revenge">😠 Revenge</div>
+    <div class="feeling-box" data-feeling="Fear">😨 Fear</div>
+    <div class="feeling-box" data-feeling="Happiness">😊 Happiness</div>
+    <div class="feeling-box" data-feeling="Love">❤️ Love</div>
+    <div class="feeling-box" data-feeling="Comparison">😒 Comparison</div>
+    <div class="feeling-box" data-feeling="Wisdom">😇 Wisdom</div>
+    <div class="feeling-box" data-feeling="Gratitude">🙏 Gratitude</div>
+    <div class="feeling-box" data-feeling="Hope">🌟 Hope</div>
+    <div class="feeling-box" data-feeling="Confidence">💪 Confidence</div>
+    <div class="feeling-box" data-feeling="Motivation">🚀 Motivation</div>
+    <div class="feeling-box" data-feeling="Inspiration">✨ Inspiration</div>
+    <div class="feeling-box" data-feeling="All">🌈 Show All</div>
   </div>
 
-  <script>
-    const feelingBoxes = document.querySelectorAll('.feeling-box');
-    const videoCards = document.querySelectorAll('.video-card');
+  <!-- Videos -->
+  <div class="video-grid" id="videoGrid">
+    {% for item in pravachanas %}
+      <div class="video-card" data-feeling="{{ item.feeling|default('') }}">
+        <iframe src="https://www.youtube.com/embed/{{ item.video_id }}" frameborder="0" allowfullscreen></iframe>
+        <div class="video-info">
+          <div class="video-title">{{ item.category }}</div>
+          <div class="video-description">By {{ item.author }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
 
-    feelingBoxes.forEach(box => {
-      box.addEventListener('click', () => {
-        const selectedFeeling = box.getAttribute('data-feeling');
+<script>
+  // Loader fade logic
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('page-loader');
+    const content = document.getElementById('main-content');
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      content.style.display = 'block';
+    }, 500);
+  });
 
-        videoCards.forEach(card => {
-          const cardFeeling = card.getAttribute('data-feeling');
-          if (selectedFeeling === "All" || cardFeeling === selectedFeeling) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+  // Feeling filter logic
+  const feelingBoxes = document.querySelectorAll('.feeling-box');
+  const videoCards = document.querySelectorAll('.video-card');
+
+  feelingBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+      const selectedFeeling = box.getAttribute('data-feeling');
+      videoCards.forEach(card => {
+        const cardFeeling = card.getAttribute('data-feeling');
+        card.style.display = (selectedFeeling === "All" || cardFeeling === selectedFeeling) ? 'block' : 'none';
       });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>

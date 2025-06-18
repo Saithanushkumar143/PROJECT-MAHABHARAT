@@ -6,8 +6,9 @@
   <title>Settings - KurukshetraMind</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #0d0d0d;
       color: white;
@@ -112,10 +113,58 @@
       background-color: #d64500;
       color: #fff !important;
     }
+
+    /* LOADER */
+    #loader {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: #0d0d0d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .dot-loader {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot-loader div {
+      width: 12px;
+      height: 12px;
+      background-color: #e63e00;
+      border-radius: 50%;
+      animation: pulse 0.8s infinite ease-in-out;
+    }
+
+    .dot-loader div:nth-child(2) { animation-delay: 0.1s; }
+    .dot-loader div:nth-child(3) { animation-delay: 0.2s; }
+    .dot-loader div:nth-child(4) { animation-delay: 0.3s; }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="dot-loader">
+      <div></div><div></div><div></div><div></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS PANEL -->
   <div class="container">
     <h1>🛠️ Settings</h1>
 
@@ -150,6 +199,14 @@
         localStorage.setItem("mode", "dark");
       }
     });
+
+    // Loader logic
+    window.onload = () => {
+      const loader = document.getElementById("loader");
+      loader.style.transition = "opacity 0.3s ease";
+      loader.style.opacity = "0";
+      setTimeout(() => loader.style.display = "none", 300);
+    };
   </script>
 
 </body>

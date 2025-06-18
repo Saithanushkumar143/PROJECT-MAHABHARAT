@@ -154,10 +154,59 @@
     .hidden {
       display: none;
     }
-  </style>
+  .loader-wrapper {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #0d0d0d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+
+.dot-loader {
+  display: flex;
+  gap: 10px;
+}
+
+.dot-loader div {
+  width: 14px;
+  height: 14px;
+  background-color: #e63e00;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.dot-loader div:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.dot-loader div:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.dot-loader div:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-12px);
+    opacity: 0.6;
+  }
+}
+</style>
 </head>
 <body>
-  <div class="sidebar">
+  <!-- 4-dot Loader -->
+<div class="loader-wrapper" id="loader">
+  <div class="dot-loader">
+    <div></div><div></div><div></div><div></div>
+  </div>
+</div>
+
+  <div class="sidebar" style="display: none;">
+
     <h2>Admin</h2>
     <a href="#" class="nav-item active" id="dashboard">Dashboard</a>
     <a href="#" class="nav-item" id="user-insights">User Insights</a>
@@ -167,11 +216,12 @@
     <a href="/explore" class="nav-item">Logout</a>
   </div>
 
-  <div class="welcome-banner">
+  <div class="welcome-banner" style="display: none;">
+
     Welcome back, YEGOTI SAI THANUSH KUMAR
   </div>
 
-  <div class="main-content">
+  <div class="main-content" style="display: none;">
     <div class="section" id="dashboard-section">
       <h3>Dashboard Overview</h3>
       <p>This is your command center. Feel the power of KurukshetraMind at your fingertips.</p>
@@ -352,6 +402,18 @@
         alert('Error submitting pravachana: ' + error.message);
       });
     });
+    // Loader Fade
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  loader.style.opacity = '0';
+  setTimeout(() => {
+    loader.style.display = 'none';
+    document.querySelector('.sidebar').style.display = 'block';
+    document.querySelector('.welcome-banner').style.display = 'block';
+    document.querySelector('.main-content').style.display = 'block';
+  }, 500);
+});
+
   </script>
 </body>
 </html>

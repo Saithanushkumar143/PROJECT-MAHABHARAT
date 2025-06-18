@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mahabharata Pravachanas</title>
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: Arial, sans-serif;
       background-color: #0d0d0d;
@@ -16,6 +15,47 @@
       overflow-x: hidden;
       position: relative;
     }
+
+    /* LOADER STYLES */
+    #loader {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: #0d0d0d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10001;
+    }
+
+    .dot-loader {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot-loader div {
+      width: 12px;
+      height: 12px;
+      background-color: #e63e00;
+      border-radius: 50%;
+      animation: pulse 0.8s infinite ease-in-out;
+    }
+
+    .dot-loader div:nth-child(2) { animation-delay: 0.1s; }
+    .dot-loader div:nth-child(3) { animation-delay: 0.2s; }
+    .dot-loader div:nth-child(4) { animation-delay: 0.3s; }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     .container {
       max-width: 1440px;
       margin: 0 auto;
@@ -36,6 +76,7 @@
       display: flex;
       gap: 10px;
     }
+
     #searchInput {
       flex-grow: 1;
       padding: 10px 14px;
@@ -46,10 +87,12 @@
       font-size: 1rem;
       box-shadow: inset 0 0 6px #333;
     }
+
     #searchInput:focus {
       outline: none;
       background-color: #2b2b2b;
     }
+
     #clearFilters {
       background-color: #e63e00;
       border: none;
@@ -61,6 +104,7 @@
       cursor: pointer;
       transition: background-color 0.25s ease;
     }
+
     #clearFilters:hover {
       background-color: #ff5400;
     }
@@ -70,6 +114,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
+
     .video-card {
       background-color: #1a1a1a;
       border-radius: 10px;
@@ -78,22 +123,27 @@
       flex-direction: column;
       box-shadow: 0 0 6px #222 inset;
     }
+
     .video-card:hover {
       transform: scale(1.03);
       box-shadow: 0 0 12px #e63e00;
     }
+
     .video-thumbnail {
       width: 100%;
     }
+
     .video-info {
       padding: 12px;
     }
+
     .video-title {
       font-size: 1rem;
       font-weight: bold;
       margin-bottom: 4px;
       color: #fff;
     }
+
     .video-description {
       font-size: 0.85rem;
       color: #ccc;
@@ -104,6 +154,7 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+
     @media (max-width: 600px) {
       h1 {
         font-size: 1.5rem;
@@ -120,148 +171,53 @@
       }
     }
 
-    #filterToggle {
+    #homeButton {
       position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: #e63e00;
-      border-radius: 50%;
+      top: 20px;
+      left: 20px;
       width: 48px;
       height: 48px;
-      cursor: pointer;
-      box-shadow: 0 0 10px #e63e00;
+      background-color: #e63e00;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      text-decoration: none;
+      box-shadow: 0 0 10px #e63e00;
+      z-index: 10000;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
-    #filterToggle:hover {
+
+    #homeButton:hover {
       background-color: #ff5400;
       box-shadow: 0 0 16px #ff5400;
     }
-    #filterToggle svg {
-      fill: white;
+
+    #homeButton svg {
       width: 24px;
       height: 24px;
     }
-
-    #filterPanel {
-      position: fixed;
-      top: 0;
-      right: -360px;
-      width: 360px;
-      height: 100vh;
-      background: #121212;
-      box-shadow: -3px 0 20px rgba(230, 62, 0, 0.85);
-      padding: 24px 20px 40px 20px;
-      transition: right 0.35s ease;
-      z-index: 9998;
-      overflow-y: auto;
-    }
-    #filterPanel.open {
-      right: 0;
-    }
-    #filterPanel h2 {
-      font-size: 1.6rem;
-      margin-bottom: 28px;
-      color: #e63e00;
-      text-align: center;
-    }
-
-    .filter-section {
-      margin-bottom: 32px;
-    }
-    .filter-section h3 {
-      font-size: 1.2rem;
-      margin-bottom: 14px;
-      color: #f26a1c;
-      border-bottom: 1px solid #e63e00;
-      padding-bottom: 6px;
-    }
-
-    .checkbox-list {
-      max-height: 200px;
-      overflow-y: auto;
-      border-radius: 8px;
-      background: #1e1e1e;
-      padding: 12px;
-      box-shadow: inset 0 0 10px #000000;
-    }
-
-    .checkbox-list label {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1rem;
-      padding: 6px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-      color: #eee;
-    }
-
-    .checkbox-list input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-    }
-
-    #overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.55);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 9997;
-    }
-    #overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    #homeButton {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 48px;
-  height: 48px;
-  background-color: #e63e00;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  box-shadow: 0 0 10px #e63e00;
-  z-index: 10000;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-#homeButton:hover {
-  background-color: #ff5400;
-  box-shadow: 0 0 16px #ff5400;
-}
-#homeButton svg {
-  width: 24px;
-  height: 24px;
-}
-
-
   </style>
 </head>
 <body>
-    <a href="/dashboard" id="homeButton" aria-label="Go to Dashboard">
-      <svg viewBox="0 0 24 24" fill="white">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-      </svg>
-    </a>
 
+  <!-- 4-dot loader -->
+  <div id="loader">
+    <div class="dot-loader">
+      <div></div><div></div><div></div><div></div>
+    </div>
+  </div>
+
+  <!-- Home button -->
+  <a href="/dashboard" id="homeButton" aria-label="Go to Dashboard">
+    <svg viewBox="0 0 24 24" fill="white">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </a>
+
+  <!-- Main content -->
   <div class="container" id="mainContainer">
     <h1>Mahabharata Pravachanas</h1>
-<a href="/dashboard" id="homeButton" aria-label="Go to Dashboard">
-  <svg viewBox="0 0 24 24" fill="white">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-  </svg>
-</a>
 
     <div class="search-clear-wrapper">
       <input type="text" id="searchInput" placeholder="Search videos..." autocomplete="off" />
@@ -286,94 +242,34 @@
     </div>
   </div>
 
-  <button id="filterToggle" aria-label="Toggle filter panel">
-    <svg viewBox="0 0 24 24"><path d="M3 5h18v2H3zM6 11h12v2H6zM10 17h4v2h-4z" /></svg>
-  </button>
-
-  <aside id="filterPanel">
-    <h2>Filters</h2>
-    <section class="filter-section">
-      <h3>Characters</h3>
-      <div class="checkbox-list" id="characterFilters"></div>
-    </section>
-    <section class="filter-section">
-      <h3>Authors</h3>
-      <div class="checkbox-list" id="authorFilters"></div>
-    </section>
-  </aside>
-
-  <div id="overlay"></div>
-
   <script>
-    const filterToggle = document.getElementById('filterToggle');
-    const filterPanel = document.getElementById('filterPanel');
-    const overlay = document.getElementById('overlay');
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearFilters');
     const videoGrid = document.getElementById('videoGrid');
     const videos = Array.from(videoGrid.children);
 
-    const charactersSet = new Set();
-    const authorsSet = new Set();
-
-    videos.forEach(video => {
-      charactersSet.add(video.dataset.category);
-      authorsSet.add(video.dataset.author);
-    });
-
-    function createCheckbox(id, name, value) {
-      const label = document.createElement('label');
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.id = id;
-      checkbox.name = name;
-      checkbox.value = value;
-      label.appendChild(checkbox);
-      label.appendChild(document.createTextNode(value.charAt(0).toUpperCase() + value.slice(1)));
-      return label;
-    }
-
-    const characterContainer = document.getElementById('characterFilters');
-    Array.from(charactersSet).sort().forEach(char => {
-      characterContainer.appendChild(createCheckbox('char-' + char, 'character', char));
-    });
-
-    const authorContainer = document.getElementById('authorFilters');
-    Array.from(authorsSet).sort().forEach(auth => {
-      authorContainer.appendChild(createCheckbox('auth-' + auth, 'author', auth));
-    });
-
     function filterVideos() {
-      const searchTerm = searchInput.value.toLowerCase().trim();
-      const selectedChars = Array.from(document.querySelectorAll('input[name="character"]:checked')).map(cb => cb.value);
-      const selectedAuthors = Array.from(document.querySelectorAll('input[name="author"]:checked')).map(cb => cb.value);
-
+      const term = searchInput.value.toLowerCase().trim();
       videos.forEach(video => {
-        const matchSearch = video.dataset.title.includes(searchTerm);
-        const matchChar = selectedChars.length === 0 || selectedChars.includes(video.dataset.category);
-        const matchAuth = selectedAuthors.length === 0 || selectedAuthors.includes(video.dataset.author);
-        video.style.display = (matchSearch && matchChar && matchAuth) ? 'flex' : 'none';
+        const title = video.dataset.title;
+        video.style.display = title.includes(term) ? 'flex' : 'none';
       });
     }
 
-    filterToggle.onclick = () => {
-      filterPanel.classList.toggle('open');
-      overlay.classList.toggle('active');
-    };
-    overlay.onclick = () => {
-      filterPanel.classList.remove('open');
-      overlay.classList.remove('active');
-    };
     searchInput.oninput = filterVideos;
-    filterPanel.addEventListener('change', filterVideos);
     clearBtn.onclick = () => {
       searchInput.value = '';
-      document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
       filterVideos();
     };
 
-    // Show all videos by default
-    window.onload = () => filterVideos();
+    window.onload = () => {
+      // Hide loader when page is ready
+      const loader = document.getElementById("loader");
+      loader.style.transition = "opacity 0.3s ease";
+      loader.style.opacity = "0";
+      setTimeout(() => loader.style.display = "none", 300);
+      filterVideos(); // Show videos
+    };
   </script>
 </body>
 </html>
