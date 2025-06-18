@@ -9,3 +9,6 @@ services:
     envVars:
       - key: MONGO_URI
         value: mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    build:
+      environment:
+        pythonVersion: 3.11.9
