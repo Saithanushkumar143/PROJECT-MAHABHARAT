@@ -303,6 +303,26 @@
     opacity: 0.6;
   }
 }
+.chakra-loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid transparent;
+  border-top: 6px solid #e63e00;
+  border-right: 6px solid #e63e00;
+  border-radius: 50%;
+  animation: chakra-spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes chakra-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -348,10 +368,11 @@
           </div>
         </div>
 
-        <div id="loader" style="display:none;">
-          <img src="{{ url_for('static', filename='images/om-loader.gif') }}" alt="Loading...">
-          <p>Invoking wisdom from the scriptures...</p>
-        </div>
+        <div id="loader" style="display: none; text-align: center;">
+  <div class="chakra-loader" aria-label="Spinning Chakra Loader"></div>
+  <p style="margin-top: 12px;">Invoking wisdom from the scriptures...</p>
+</div>
+
 
         <form id="queryForm" style="margin-top: 30px;">
           <input type="text" id="queryInput" name="query" placeholder="Ask your question..." required>

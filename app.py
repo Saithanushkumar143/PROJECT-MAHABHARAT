@@ -80,7 +80,7 @@ def pravachanas():
         print(f"[ERROR loading Pravachanas]: {e}")
         return render_template('pravachanas.html', pravachanas=[])
 
-@app.route('/admin/pravachanas')
+@app.route('/admin_pravachanas')
 def admin_pravachanas():
     try:
         videos = list(pravachanas_collection.find())

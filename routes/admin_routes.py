@@ -2,17 +2,23 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import re
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 admin_routes = Blueprint('admin_routes', __name__)
 
 # --- MongoDB Setup ---
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client['kurukshetramind']
 pravachanas_collection = db['pravachanas']
 
 # --- Admin Credentials ---
-ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'wisdom123'
+import os
+ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
+
 
 # --- Admin Login ---
 @admin_routes.route('/login', methods=['GET', 'POST'])
