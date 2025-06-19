@@ -34,6 +34,9 @@ def extract_video_id(link):
 app.jinja_env.filters['extract_youtube_id'] = extract_video_id
 
 # --- Routes ---
+@app.route('/ping')
+def ping():
+    return 'pong', 200
 
 @app.route('/')
 def home():
