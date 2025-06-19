@@ -9,7 +9,7 @@ import numpy as np
 wisdom_routes = Blueprint('wisdom_routes', __name__)
 
 # MongoDB setup
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["kurukshetramind"]
 collection = db["wisdom"]
 

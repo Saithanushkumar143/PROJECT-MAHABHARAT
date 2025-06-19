@@ -8,7 +8,7 @@ import numpy as np
 dashboard_routes = Blueprint('dashboard_routes', __name__)
 
 # MongoDB Connection
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["kurukshetramind"]
 collection = db["wisdom"]
 
