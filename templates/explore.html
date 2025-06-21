@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Explore - Mahabharata Wisdom App</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/wisdom.css') }}">
   <style>
     body {
@@ -164,11 +165,11 @@
   <h2 class="heading">Choose Your Path</h2>
   <div class="path-group">
     <a href="/dashboard" class="path">
-      <img src="{{ url_for('static', filename='images/user.jpg') }}" alt="User Icon">
+      <img src="{{ url_for('static', filename='images/user1.jpg') }}" alt="User Icon">
       <div class="path-label">User</div>
     </a>
     <a href="/admin_login" class="path">
-      <img src="{{ url_for('static', filename='images/admin.png') }}" alt="Admin Icon">
+      <img src="{{ url_for('static', filename='images/admin1.png') }}" alt="Admin Icon">
       <div class="path-label">Admin</div>
     </a>
   </div>
