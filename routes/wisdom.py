@@ -4,12 +4,15 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from rapidfuzz import fuzz
 import numpy as np
-
+import os
 # Blueprint definition
 wisdom_routes = Blueprint('wisdom_routes', __name__)
 
 # MongoDB setup
-client = MongoClient("mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# client = MongoClient("mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# client = MongoClient("mongodb://localhost:27017/")
+MONGO_URI = os.getenv("MONGO_URI")
+client = MongoClient(MONGO_URI)
 db = client["kurukshetramind"]
 collection = db["wisdom"]
 

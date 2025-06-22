@@ -17,7 +17,7 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     .light-mode {
@@ -68,12 +68,16 @@
       left: -240px;
       padding-top: 30px;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-      z-index: 1000;
+      z-index: 2001; /* Increased for overlay */
       transition: left 0.3s ease-in-out;
     }
 
     .sidebar.hidden {
       left: -240px;
+    }
+
+    .sidebar.visible {
+      left: 0;
     }
 
     .sidebar h2 {
@@ -109,6 +113,8 @@
       width: calc(100% - 240px);
       position: relative;
       margin-top: 70px;
+      transition: filter 0.3s;
+      z-index: 1;
     }
 
     .container {
@@ -219,17 +225,70 @@
       display: none;
     }
 
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 100%;
-        position: relative;
-        left: 0;
+    @media (max-width: 900px) {
+      .container {
+        width: 100vw;
         height: auto;
+        min-height: 100vh;
+        padding: 0;
       }
       .main-content {
         margin-left: 0;
-        width: 100%;
-        padding: 20px;
+        width: 100vw;
+        padding: 10px;
+        margin-top: 70px;
+      }
+      .content-box {
+        max-width: 98vw;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 80vw;
+        max-width: 320px;
+        left: -80vw;
+        height: 100vh;
+        top: 0;
+        padding-top: 70px;
+        transition: left 0.3s;
+      }
+      .sidebar.visible {
+        left: 0;
+      }
+      .sidebar.hidden {
+        left: -80vw;
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100vw;
+        padding: 10px;
+        filter: none;
+      }
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 2002;
+      }
+      .container {
+        width: 100vw;
+        min-height: 100vh;
+        padding: 0;
+      }
+      .content-box {
+        max-width: 98vw;
+        padding: 10px;
+      }
+      body.sidebar-open .main-content {
+        filter: blur(2px) grayscale(0.2);
+        pointer-events: none;
+        user-select: none;
+      }
+      body.sidebar-open {
+        overflow: hidden;
       }
     }
 
@@ -353,6 +412,9 @@
     </ul>
   </div>
 
+  <!-- Sidebar overlay for mobile -->
+<div class="sidebar-overlay"></div>
+
   <div class="main-content">
     <div class="container">
       <div class="content-box">
@@ -386,24 +448,60 @@
   <script>
     const sidebar = document.getElementById("sidebar");
     const hamburger = document.querySelector(".hamburger");
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+
+    function openSidebar() {
+      sidebar.classList.remove("hidden");
+      sidebar.classList.add("visible");
+      document.body.classList.add("sidebar-open");
+      if (window.innerWidth <= 768) {
+        sidebarOverlay.style.display = "block";
+      }
+      sidebar.style.left = '0';
+    }
+    function closeSidebar() {
+      sidebar.classList.remove("visible");
+      sidebar.classList.add("hidden");
+      document.body.classList.remove("sidebar-open");
+      if (window.innerWidth <= 768) {
+        sidebarOverlay.style.display = "none";
+      }
+      sidebar.style.left = window.innerWidth <= 768 ? '-80vw' : '-240px';
+    }
 
     hamburger.addEventListener("click", function (e) {
       e.stopPropagation();
-      sidebar.classList.toggle("hidden");
-      sidebar.style.left = sidebar.classList.contains("hidden") ? '-240px' : '0';
+      if (sidebar.classList.contains("hidden")) {
+        openSidebar();
+      } else {
+        closeSidebar();
+      }
     });
 
-    document.addEventListener("click", function () {
-      if (!sidebar.classList.contains("hidden")) {
-        sidebar.classList.add("hidden");
-        sidebar.style.left = '-240px';
+    // Overlay click closes sidebar
+    sidebarOverlay.addEventListener("click", function (e) {
+      closeSidebar();
+    });
+
+    // Prevent click inside sidebar from closing it
+    sidebar.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+
+    // Close sidebar on outside click (desktop and mobile)
+    document.addEventListener("click", function (e) {
+      if (
+        !sidebar.classList.contains("hidden") &&
+        !sidebar.contains(e.target) &&
+        !hamburger.contains(e.target)
+      ) {
+        closeSidebar();
       }
     });
 
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && !sidebar.classList.contains("hidden")) {
-        sidebar.classList.add("hidden");
-        sidebar.style.left = '-240px';
+        closeSidebar();
       }
     });
 
@@ -480,7 +578,17 @@ window.addEventListener('load', () => {
   }, 500);
 });
 
-</script>
+    // On resize, adjust sidebar position if needed
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebarOverlay.style.display = "none";
+        closeSidebar();
+      } else if (document.body.classList.contains("sidebar-open")) {
+        sidebarOverlay.style.display = "block";
+        sidebar.style.left = '0';
+      }
+    });
+  </script>
 
 </body>
 </html>

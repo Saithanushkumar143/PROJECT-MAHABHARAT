@@ -98,6 +98,7 @@
     .contact a {
       color: #e63e00;
       text-decoration: none;
+      word-break: break-all;
     }
 
     .contact a:hover {
@@ -138,6 +139,56 @@
     #homeButton svg {
       width: 24px;
       height: 24px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 900px) {
+      .container {
+        margin: 40px 8px;
+        padding: 18px 8px;
+        max-width: 98vw;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .contact {
+        margin-top: 18px;
+      }
+      footer {
+        margin-top: 30px;
+        padding-top: 14px;
+      }
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 12vw 2vw 8vw 2vw;
+        padding: 10vw 3vw 6vw 3vw;
+        border-radius: 6px;
+        max-width: 99vw;
+      }
+      h1 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+      }
+      p, .contact, .contact a {
+        font-size: 1rem;
+        word-break: break-word;
+      }
+      #homeButton {
+        top: 8px;
+        left: 8px;
+        width: 38px;
+        height: 38px;
+      }
+      #homeButton svg {
+        width: 18px;
+        height: 18px;
+      }
+      footer {
+        margin-top: 18px;
+        padding-top: 8px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>

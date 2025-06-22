@@ -133,6 +133,77 @@
         opacity: 0.6;
       }
     }
+
+    /* Responsive Styles */
+    @media (max-width: 700px) {
+      body {
+        padding: 8px;
+        font-size: 15px;
+      }
+      h1 {
+        font-size: 1.2em;
+        margin-top: 60px;
+      }
+      #homeButton {
+        width: 38px;
+        height: 38px;
+        top: 10px;
+        left: 10px;
+      }
+      #homeButton svg {
+        width: 18px;
+        height: 18px;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      table {
+        width: 100%;
+        overflow-x: auto;
+        background: #161616;
+        border-radius: 8px;
+        margin-top: 12px;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        margin-bottom: 18px;
+        border-bottom: 2px solid #222;
+        box-shadow: 0 2px 8px #0002;
+        border-radius: 8px;
+        background: #181818;
+        padding: 10px 0;
+      }
+      td {
+        border: none;
+        text-align: left;
+        padding: 8px 10px;
+        position: relative;
+      }
+      td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #e63e00;
+        display: block;
+        margin-bottom: 2px;
+        font-size: 0.98em;
+      }
+      input[type="text"] {
+        width: 100%;
+        font-size: 1em;
+        margin-bottom: 6px;
+      }
+      button {
+        width: 100%;
+        margin: 4px 0;
+        font-size: 1em;
+        padding: 8px 0;
+      }
+      form {
+        margin-bottom: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -163,17 +234,17 @@
     <tbody>
       {% for video in pravachanas %}
       <tr>
-        <td>
+        <td data-label="Category">
           <form action="/admin/edit_video/{{ video._id }}" method="POST">
             <input type="text" name="category" value="{{ video.category }}" required>
         </td>
-        <td>
+        <td data-label="Author">
             <input type="text" name="author" value="{{ video.author }}" required>
         </td>
-        <td>
+        <td data-label="Video Link">
             <input type="text" name="youtube_link" value="https://youtu.be/{{ video.video_id }}" required>
         </td>
-        <td>
+        <td data-label="Actions">
             <button type="submit">Save</button>
           </form>
           <form action="/admin/delete_video/{{ video._id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this video?');">
