@@ -7,15 +7,18 @@ import re
 import traceback
 from dotenv import load_dotenv
 
-# --- Load environment variables ---
+# --- Load environment variables from .env ---
 load_dotenv()
 
 # --- Flask App Setup ---
 app = Flask(__name__)
-app.secret_key = '8b28c742ea3a493d97bfb5f705e6ef61b19d2231'  # Change this in production
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'change-this-in-production')
 
 # --- MongoDB Atlas Setup ---
 MONGO_URI = os.getenv("MONGO_URI")
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI is not set in environment variables")
+
 client = MongoClient(MONGO_URI)
 db = client['kurukshetramind']
 pravachanas_collection = db['pravachanas']
@@ -70,9 +73,10 @@ def about():
 def explore():
     return render_template('explore.html')
 
-@app.route('/admin_login')
-def admin_login():
-    return render_template('admin_login.html')
+# ⚠️ Removed: This route may conflict with your Blueprint-based login
+# @app.route('/admin_login')
+# def admin_login():
+#     return render_template('admin_login.html')
 
 @app.route('/pravachanas')
 def pravachanas():

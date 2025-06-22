@@ -10,8 +10,7 @@ load_dotenv()
 admin_routes = Blueprint('admin_routes', __name__)
 
 # --- MongoDB Setup ---
-# client = MongoClient("mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-# client = MongoClient("mongodb://localhost:27017/")
+
 MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
 db = client['kurukshetramind']
