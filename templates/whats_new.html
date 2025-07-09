@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>What's New - KurukshetraMind</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .whatsnew-container {
+      max-width: 700px;
+      margin: 80px auto 0 auto;
+      background: rgba(30,30,30,0.95);
+      border-radius: 12px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 32px #000a;
+    }
+    h1 {
+      color: #e63e00;
+      margin-bottom: 18px;
+    }
+    ul {
+      list-style: disc inside;
+      margin: 0 0 0 12px;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 12px;
+      font-size: 1.1em;
+    }
+    .date {
+      color: #ffb366;
+      font-size: 0.95em;
+      margin-bottom: 8px;
+      display: block;
+    }
+    a.back-link {
+      color: #e63e00;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="whatsnew-container">
+    <a href="/dashboard" class="back-link">&larr; Back to Dashboard</a>
+    <h1>🚀 What's New</h1>
+    <p>Here are the latest updates and features added to KurukshetraMind:</p>
+    <ul>
+      <li>
+        <span class="date">2024-06-10</span>
+        <b>What's New page unlocked!</b> Now you can see all recent updates and features here.
+      </li>
+      <li>
+        <span class="date">2024-06-09</span>
+        <b>Wisdom Source Toggle:</b> Choose between our database and AI for wisdom answers.
+      </li>
+      <li>
+        <span class="date">2024-06-08</span>
+        <b>Improved Loader:</b> Added animated loaders for a better experience.
+      </li>
+      <li>
+        <span class="date">2024-06-07</span>
+        <b>Speech Feature:</b> Listen to the lesson using the 🔊 Speak Lesson button.
+      </li>
+      <li>
+        <span class="date">2024-06-06</span>
+        <b>Mobile Sidebar:</b> Sidebar now works smoothly on mobile devices.
+      </li>
+      <!-- Add more updates as needed -->
+    </ul>
+    <p>Thank you for using KurukshetraMind! More features coming soon.</p>
+  </div>
+</body>
+</html>

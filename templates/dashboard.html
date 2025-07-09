@@ -225,6 +225,103 @@
       display: none;
     }
 
+    /* --- Uiverse.io Switch Styles with Custom Colors --- */
+    .switch {
+      --_switch-bg-clr: #0d0d0d; /* Jet Black */
+      --_switch-padding: 4px;
+      --_slider-bg-clr: rgba(230, 62, 0, 0.5); /* Battle Flame, semi-transparent */
+      --_slider-bg-clr-on: #e63e00; /* Battle Flame */
+      --_slider-txt-clr: #fffbe6; /* Light yellow for text */
+      --_label-padding: 1rem 2rem;
+      --_switch-easing: cubic-bezier(0.47,1.64,0.41,0.8);
+      color: var(--_slider-txt-clr);
+      width: fit-content;
+      justify-content: center;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      position: relative;
+      isolation: isolate;
+      box-shadow: 0 0 12px 2px #fffbe6a0; /* subtle yellow shine */
+    }
+
+    .switch input[type="checkbox"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    .switch > span {
+      display: grid;
+      place-content: center;
+      transition: opacity 300ms ease-in-out 150ms;
+      padding: var(--_label-padding);
+      color: var(--_slider-txt-clr);
+      font-weight: 600;
+      text-shadow: 0 0 6px #fffbe6b0;
+    }
+    .switch::before,
+    .switch::after {
+      content: "";
+      position: absolute;
+      border-radius: inherit;
+      transition: inset 150ms ease-in-out;
+    }
+    /* switch slider */
+    .switch::before {
+      background-color: var(--_slider-bg-clr);
+      inset: var(--_switch-padding) 50% var(--_switch-padding) var(--_switch-padding);
+      transition:
+        inset 500ms var(--_switch-easing),
+        background-color 500ms ease-in-out;
+      z-index: -1;
+      box-shadow:
+        0 0 16px 2px #fffbe6a0, /* yellow shine */
+        0 1px rgba(255,255,255,0.3),
+        inset 0 1px 1px rgba(0,0,0,0.3);
+    }
+    /* switch bg color */
+    .switch::after {
+      background-color: var(--_switch-bg-clr);
+      inset: 0;
+      z-index: -2;
+    }
+    .switch:focus-within::after {
+      inset: -0.25rem;
+      box-shadow: 0 0 0 3px #fffbe6b0;
+    }
+    .switch:has(input:checked):hover > span:first-of-type,
+    .switch:has(input:not(:checked)):hover > span:last-of-type {
+      opacity: 1;
+      transition-delay: 0ms;
+      transition-duration: 100ms;
+    }
+    .switch:has(input:checked):hover::before {
+      inset: var(--_switch-padding) var(--_switch-padding) var(--_switch-padding) 45%;
+    }
+    .switch:has(input:not(:checked)):hover::before {
+      inset: var(--_switch-padding) 45% var(--_switch-padding) var(--_switch-padding);
+    }
+    .switch:has(input:checked)::before {
+      background-color: var(--_slider-bg-clr-on);
+      box-shadow: 0 0 24px 4px #fffbe6b0, 0 0 0 2px #e63e00;
+      inset: var(--_switch-padding) var(--_switch-padding) var(--_switch-padding) 50%;
+    }
+    .switch > span:last-of-type,
+    .switch > input:checked + span:first-of-type {
+      opacity: 0.75;
+    }
+    .switch > input:checked ~ span:last-of-type {
+      opacity: 1;
+    }
+    /* --- End Custom Switch --- */
+
     @media (max-width: 900px) {
       .container {
         width: 100vw;
@@ -382,8 +479,7 @@
     transform: rotate(360deg);
   }
 }
-
-</style>
+  </style>
 </head>
 <body>
 <!-- 4-dot Loader -->
@@ -406,7 +502,7 @@
       <li><a href="/feeling_manager" class="nav-item">🧝 Self Management</a></li>
       <li><a href="/pravachanas" class="nav-item">📜 Pravachanas</a></li>  
       <li><a href="/settings" class="nav-item" id="settings-link">⚙️ Settings</a></li>
-      <li><a href="#" class="nav-item" id="profile-link">👤 Profile</a></li>
+      <li><a href="/whats_new" class="nav-item" id="profile-link">👤 What's New</a></li>
       <li><a href="/about" class="nav-item">ℹ️ About</a></li>
       <li><a href="/explore" class="nav-item">🚪 Logout</a></li>
     </ul>
@@ -418,6 +514,18 @@
   <div class="main-content">
     <div class="container">
       <div class="content-box">
+        <!-- Wisdom Source Toggle Switch -->
+        <div style="margin-bottom: 20px; text-align: center;">
+          <label for="sourceToggle" style="font-weight: bold;">Choose Wisdom Source:</label>
+          <div style="display: flex; justify-content: center; margin-top: 10px;">
+            <label class="switch">
+              <input type="checkbox" id="sourceToggle" checked>
+              <span>🗃️ Our Database</span>
+              <span>🤖 AI</span>
+            </label>
+          </div>
+        </div>
+
         <div id="result" class="result-box">
           <div class="wisdom-card">
             <h2 id="promptHeading">Waiting for your question...</h2>
@@ -512,12 +620,14 @@
       const loader = document.getElementById('loader');
       const resultBox = document.getElementById('result');
       const promptHeading = document.getElementById('promptHeading');
+      const useAI = document.getElementById('sourceToggle').checked;
+      const route = useAI ? "/get_ai_wisdom" : "/get_wisdom";
 
       loader.style.display = 'block';
       resultBox.style.display = 'none';
 
       try {
-        const response = await fetch(`/get_wisdom?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`${route}?query=${encodeURIComponent(query)}`);
         const data = await response.json();
         promptHeading.innerText = query || "Your Question";
         document.getElementById("lessonText").innerText = data.lesson || "No lesson found.";
@@ -556,8 +666,8 @@
     });
 
     document.getElementById("profile-link").addEventListener("click", function (e) {
-      e.preventDefault();
-      alert("👤 Profile feature is coming soon!");
+      // e.preventDefault();
+      // alert("👤 Profile feature is coming soon!");
     });
 
     // 🌗 Apply Theme on Load
@@ -588,6 +698,12 @@ window.addEventListener('load', () => {
         sidebar.style.left = '0';
       }
     });
+  </script>
+
+</body>
+</html>
+</html>
+       
   </script>
 
 </body>

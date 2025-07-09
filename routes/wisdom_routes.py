@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from pymongo import MongoClient
 import re
 import os
+from gemini_handler import get_ai_based_wisdom
 # --- MongoDB Setup ---
 
 MONGO_URI = os.getenv("MONGO_URI")
@@ -52,3 +53,14 @@ def get_wisdom():
         "shloka": shloka or "No shloka available.",
         "response": response or "No response available."
     })
+@wisdom_routes.route("/get_ai_wisdom")
+def get_ai_wisdom():
+    query = request.args.get("query", "")
+    if not query:
+        return jsonify({"lesson": "", "response": "No query provided.", "shloka": ""})
+
+    try:
+        result = get_ai_based_wisdom(query)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"lesson": "", "response": f"Error: {str(e)}", "shloka": ""})

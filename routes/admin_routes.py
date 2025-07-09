@@ -33,9 +33,9 @@ def admin_login():
             session['admin_logged_in'] = True
             return redirect(url_for('admin_routes.admin_panel'))
 
-        return render_template('admin_login.html', error="Invalid credentials")
+        return render_template('login.html', error="Invalid credentials")
     
-    return render_template('admin_login.html')
+    return render_template('login.html')
 
 # --- Admin Panel Dashboard ---
 @admin_routes.route('/panel')

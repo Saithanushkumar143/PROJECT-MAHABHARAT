@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify
+
 from routes import login_routes, dashboard_routes, wisdom_routes
 from routes.admin_routes import admin_routes
 from pymongo import MongoClient
@@ -6,6 +7,7 @@ import os
 import re
 import traceback
 from dotenv import load_dotenv
+from gemini_handler import get_ai_based_wisdom
 
 # --- Load environment variables from .env ---
 load_dotenv()
@@ -87,6 +89,15 @@ def pravachanas():
         print(f"[ERROR loading Pravachanas]: {e}")
         return render_template('pravachanas.html', pravachanas=[])
 
+@app.route('/whats_new')
+def whats_new():
+    try:
+        videos = list(pravachanas_collection.find({"category": "whats_new"}))
+        return render_template('whats_new.html', pravachanas=videos)
+    except Exception as e:
+        print(f"[ERROR loading What's New Pravachanas]: {e}")
+        return render_template('whats_new.html', pravachanas=[])
+
 @app.route('/admin_pravachanas')
 def admin_pravachanas():
     try:
@@ -136,6 +147,17 @@ def submit_pravachanas():
         traceback.print_exc()
         return jsonify({'success': False, 'error': 'Failed to submit'}), 500
 
+@app.route("/get_ai_wisdom")
+def get_ai_wisdom():
+    query = request.args.get("query", "")
+    if not query:
+        return jsonify({"lesson": "", "response": "No query provided.", "shloka": ""})
+
+    try:
+        wisdom = get_ai_based_wisdom(query)
+        return jsonify(wisdom)
+    except Exception as e:
+        return jsonify({"lesson": "", "response": f"Error: {str(e)}", "shloka": ""})
 # --- Server Run ---
 if __name__ == '__main__':
     app.run(debug=True)
