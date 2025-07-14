@@ -649,16 +649,40 @@
     function handleSpeak() {
       const lesson = document.getElementById("responseText").innerText;
       if ('speechSynthesis' in window) {
+        const synth = window.speechSynthesis;
+        let voices = synth.getVoices();
+
+        // Try to pick a motivating, confident, English (preferably Indian) voice
+        let motivatingVoice = voices.find(v =>
+          (v.lang === 'en-IN' || v.lang === 'en-GB' || v.lang === 'en-US') &&
+          /female|zira|neural|natural|premium|enhanced/i.test(v.name)
+        );
+        if (!motivatingVoice) {
+          motivatingVoice = voices.find(v => v.lang.startsWith('en'));
+        }
+        if (!motivatingVoice && voices.length > 0) {
+          motivatingVoice = voices[0];
+        }
+
         const utterance = new SpeechSynthesisUtterance(lesson);
-        utterance.lang = 'en-IN';
-        utterance.rate = 1;
-        utterance.pitch = 1;
+        if (motivatingVoice) utterance.voice = motivatingVoice;
+        utterance.lang = motivatingVoice ? motivatingVoice.lang : 'en-IN';
+        utterance.rate = 1.05;
+        utterance.pitch = 1.15;
         utterance.volume = 1;
-        speechSynthesis.speak(utterance);
+        synth.cancel(); // Stop any previous speech
+        synth.speak(utterance);
       } else {
         alert("Speech synthesis not supported in this browser.");
       }
     }
+
+    // Stop speech synthesis on page refresh or navigation
+    window.addEventListener('beforeunload', function() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    });
 
     document.getElementById("settings-link").addEventListener("click", function (e) {
       e.preventDefault();
@@ -702,9 +726,4 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
-</html>
-       
-  </script>
-
-</body>
 </html>

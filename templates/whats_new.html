@@ -22,6 +22,14 @@
       padding: 36px 32px;
       box-shadow: 0 4px 32px #000a;
     }
+    .updates-scroll {
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 8px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      background: rgba(20,20,20,0.15);
+    }
     h1 {
       color: #e63e00;
       margin-bottom: 18px;
@@ -51,6 +59,27 @@
     a.back-link:hover {
       text-decoration: underline;
     }
+    @media (max-width: 600px) {
+      .whatsnew-container {
+        max-width: 98vw;
+        margin: 24px 1vw 0 1vw;
+        padding: 18px 6vw;
+        font-size: 1em;
+      }
+      .updates-scroll {
+        max-height: 220px;
+        padding-right: 2px;
+      }
+      h1 {
+        font-size: 1.3em;
+      }
+      ul {
+        font-size: 0.98em;
+      }
+      .back-link {
+        font-size: 1em;
+      }
+    }
   </style>
 </head>
 <body>
@@ -58,29 +87,43 @@
     <a href="/dashboard" class="back-link">&larr; Back to Dashboard</a>
     <h1>🚀 What's New</h1>
     <p>Here are the latest updates and features added to KurukshetraMind:</p>
-    <ul>
-      <li>
-        <span class="date">2024-06-10</span>
-        <b>What's New page unlocked!</b> Now you can see all recent updates and features here.
-      </li>
-      <li>
-        <span class="date">2024-06-09</span>
-        <b>Wisdom Source Toggle:</b> Choose between our database and AI for wisdom answers.
-      </li>
-      <li>
-        <span class="date">2024-06-08</span>
-        <b>Improved Loader:</b> Added animated loaders for a better experience.
-      </li>
-      <li>
-        <span class="date">2024-06-07</span>
-        <b>Speech Feature:</b> Listen to the lesson using the 🔊 Speak Lesson button.
-      </li>
-      <li>
-        <span class="date">2024-06-06</span>
-        <b>Mobile Sidebar:</b> Sidebar now works smoothly on mobile devices.
-      </li>
-      <!-- Add more updates as needed -->
-    </ul>
+    <div class="updates-scroll">
+      <ul>
+        <li>
+          <span class="date">2024-06-11</span>
+          <b>Randomized Video Order:</b> Pravachanas and Feeling Manager videos now shuffle every page refresh for a fresh experience.
+        </li>
+        <li>
+          <span class="date">2024-06-11</span>
+          <b>Motivational Voice:</b> The "Speak Lesson" feature now uses a more motivating, confident voice and stops on page refresh.
+        </li>
+        <li>
+          <span class="date">2024-06-11</span>
+          <b>Feeling Manager UX:</b> Clicking a feeling scrolls smoothly to the videos section.
+        </li>
+        <li>
+          <span class="date">2024-06-10</span>
+          <b>What's New page unlocked!</b> Now you can see all recent updates and features here.
+        </li>
+        <li>
+          <span class="date">2024-06-09</span>
+          <b>Wisdom Source Toggle:</b> Choose between our database and AI for wisdom answers.
+        </li>
+        <li>
+          <span class="date">2024-06-08</span>
+          <b>Improved Loader:</b> Added animated loaders for a better experience.
+        </li>
+        <li>
+          <span class="date">2024-06-07</span>
+          <b>Speech Feature:</b> Listen to the lesson using the 🔊 Speak Lesson button.
+        </li>
+        <li>
+          <span class="date">2024-06-06</span>
+          <b>Mobile Sidebar:</b> Sidebar now works smoothly on mobile devices.
+        </li>
+        <!-- Add more updates as needed -->
+      </ul>
+    </div>
     <p>Thank you for using KurukshetraMind! More features coming soon.</p>
   </div>
 </body>

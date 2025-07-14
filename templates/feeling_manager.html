@@ -214,9 +214,21 @@
     }, 500);
   });
 
+  // Shuffle video cards on each page load
+  (function shuffleVideos() {
+    const videoGrid = document.getElementById('videoGrid');
+    const cards = Array.from(videoGrid.children);
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      videoGrid.appendChild(cards[j]);
+      cards.splice(j, 1);
+    }
+  })();
+
   // Feeling filter logic
   const feelingBoxes = document.querySelectorAll('.feeling-box');
   const videoCards = document.querySelectorAll('.video-card');
+  const videoGrid = document.getElementById('videoGrid');
 
   feelingBoxes.forEach(box => {
     box.addEventListener('click', () => {
@@ -225,6 +237,8 @@
         const cardFeeling = card.getAttribute('data-feeling');
         card.style.display = (selectedFeeling === "All" || cardFeeling === selectedFeeling) ? 'block' : 'none';
       });
+      // Scroll to videos section
+      videoGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 </script>
