@@ -380,6 +380,189 @@
         opacity: 1;
       }
     }
+
+    /* Add styles for new-version theme if needed */
+    .theme-new-version .container {
+      background: linear-gradient(135deg, #e63e00 0%, #ffb347 100%);
+      color: #fff !important;
+      box-shadow: 0 0 30px rgba(230, 62, 0, 0.5);
+    }
+    .theme-new-version {
+      background-color: #222 !important;
+      color: #fff !important;
+    }
+    .theme-new-version a.button {
+      background-color: #fff;
+      color: #e63e00 !important;
+      border: 1px solid #e63e00;
+    }
+    .theme-new-version a.button:hover {
+      background-color: #ffe5d0;
+    }
+
+    /* Glass radio group styles */
+    .glass-radio-group-vertical {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0);
+      padding: 1.5rem 1.2rem;
+      border: 0px solid rgb(255, 255, 255, 0);
+      border-radius: 1rem;
+      backdrop-filter: blur(16px);
+      width: 230px;
+      overflow: hidden;
+      gap: 0.5rem;
+      margin: 0 auto;
+    }
+
+    .glass-radio-group-vertical input {
+      display: none;
+    }
+
+    .glass-radio-group-vertical label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 1.2rem;
+      border-radius: 0.8rem;
+      font-weight: 600;
+      color: #ccc;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.4s ease-in-out;
+      overflow: hidden;
+    }
+
+    .label-text {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .radio-indicator {
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 50%;
+      background: #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: white;
+      box-shadow: 0 0 0 2px transparent;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .checkmark {
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .glass-glider-vertical {
+      position: absolute;
+      left: 0;
+      height: 56px;
+      width: 80%;
+      margin-left: 20px;
+      border-radius: 0.8rem;
+      z-index: 1;
+      transition:
+        transform 0.4s cubic-bezier(0.5, 1.6, 0.4, 1),
+        background 0.5s ease-in-out,
+        box-shadow 0.4s;
+    }
+
+    #theme-classic:checked ~ .glass-glider-vertical {
+      transform: translateY(0%);
+      background: linear-gradient(135deg, #00000050, #d1d1d1cc);
+      box-shadow: 0 0 15px #00000077;
+    }
+    #theme-classic:checked + label {
+      color: white;
+    }
+    #theme-classic:checked + label .radio-indicator {
+      background: #c0c0c0;
+      box-shadow:
+        0 0 0 2px #858585aa,
+        0 0 6px #6b6b6baa;
+    }
+    #theme-classic:checked + label .checkmark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #theme-aurora:checked ~ .glass-glider-vertical {
+      transform: translateY(115%);
+      background: linear-gradient(135deg, #00000050, #ffbb00);
+      box-shadow: 0 0 15px #00000077;
+    }
+    #theme-aurora:checked + label {
+      color: white;
+    }
+    #theme-aurora:checked + label .radio-indicator {
+      background: #ffc400;
+      box-shadow:
+        0 0 0 2px #9c7300d3,
+        0 0 6px #695a00aa;
+    }
+    #theme-aurora:checked + label .checkmark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .glass-radio-group-vertical:has(#theme-classic:checked) {
+      border-color: #c0c0c0;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.2),
+        inset 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+
+    .glass-radio-group-vertical:has(#theme-aurora:checked) {
+      border-color: #ffbb00;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.2),
+        inset 0 0 8px rgba(255, 196, 0, 0.527);
+    }
+
+    /* Aurora theme styles */
+    .theme-aurora .container {
+      background: linear-gradient(135deg, #0b0f1a 0%, #121528 100%);
+      color: #f5c542 !important;
+      box-shadow: 0 0 30px #f5c54255, 0 0 60px #0b0f1a88;
+    }
+    .theme-aurora {
+      background-color: #0b0f1a !important;
+      color: #f5c542 !important;
+    }
+    .theme-aurora a.button {
+      background-color: #121528;
+      color: #f5c542 !important;
+      border: 1px solid #f5c542;
+      box-shadow: 0 0 8px #f5c54255;
+    }
+    .theme-aurora a.button:hover {
+      background-color: #23294a;
+      color: #fffbe6 !important;
+    }
+    .theme-aurora h1,
+    .theme-aurora label,
+    .theme-aurora .label-text {
+      color: #f5c542 !important;
+      text-shadow: 0 0 8px #f5c54255;
+    }
+    .theme-aurora .radio-indicator {
+      background: #23294a;
+      border: 2px solid #f5c542;
+      color: #f5c542;
+      box-shadow: 0 0 6px #f5c54255;
+    }
+    .theme-aurora .checkmark {
+      color: #f5c542;
+    }
   </style>
 </head>
 <body>
@@ -431,6 +614,30 @@
       <span>Light</span>
     </div>
 
+    <!-- Theme Block -->
+    <div style="margin-top: 35px; text-align: center;">
+      <label style="font-weight: bold; margin-bottom: 10px; display: block;">Theme:</label>
+      <div class="glass-radio-group-vertical" id="themeRadioGroup">
+        <input id="theme-classic" name="theme" type="radio" />
+        <label data-color="silver" for="theme-classic">
+          <span class="radio-indicator">
+            <span class="checkmark">✓</span>
+          </span>
+          <span class="label-text">Classic</span>
+        </label>
+
+        <input id="theme-aurora" name="theme" type="radio" />
+        <label data-color="gold" for="theme-aurora">
+          <span class="radio-indicator">
+            <span class="checkmark">✓</span>
+          </span>
+          <span class="label-text">Aurora</span>
+        </label>
+
+        <div class="glass-glider-vertical"></div>
+      </div>
+    </div>
+
     <a href="/dashboard" class="button">⬅️ Back to Dashboard</a>
   </div>
 
@@ -451,6 +658,30 @@
       } else {
         document.body.classList.remove("light-mode");
         localStorage.setItem("mode", "dark");
+      }
+    });
+
+    // Theme radio group logic
+    const themeClassic = document.getElementById("theme-classic");
+    const themeAurora = document.getElementById("theme-aurora");
+    const savedTheme = localStorage.getItem("theme") || "classic";
+    if (savedTheme === "aurora") {
+      document.body.classList.add("theme-aurora");
+      themeAurora.checked = true;
+    } else {
+      document.body.classList.remove("theme-aurora");
+      themeClassic.checked = true;
+    }
+    themeClassic.addEventListener("change", () => {
+      if (themeClassic.checked) {
+        document.body.classList.remove("theme-aurora");
+        localStorage.setItem("theme", "classic");
+      }
+    });
+    themeAurora.addEventListener("change", () => {
+      if (themeAurora.checked) {
+        document.body.classList.add("theme-aurora");
+        localStorage.setItem("theme", "aurora");
       }
     });
 

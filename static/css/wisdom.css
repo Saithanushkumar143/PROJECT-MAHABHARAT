@@ -144,3 +144,59 @@ h1 {
     background-color: #555;
 }
 
+/* Aurora Theme Styles */
+.theme-aurora body {
+    background: linear-gradient(135deg, #0b0f1a 0%, #121528 100%) !important;
+    color: #f5c542 !important;
+}
+
+.theme-aurora .container,
+.theme-aurora .wisdom-block,
+.theme-aurora .result-card {
+    background: rgba(18, 21, 40, 0.96) !important;
+    color: #f5c542 !important;
+    box-shadow: 0 0 24px #f5c54233, 0 0 60px #0b0f1a88;
+}
+
+.theme-aurora h1,
+.theme-aurora .subtitle {
+    color: #f5c542 !important;
+    text-shadow: 0 0 8px #f5c54255;
+}
+
+.theme-aurora input[type="text"] {
+    background-color: #181c2e !important;
+    color: #f5c542 !important;
+    border: 2px solid #f5c542 !important;
+    box-shadow: 0 0 8px #f5c54255;
+}
+
+.theme-aurora button,
+.theme-aurora .cta-button {
+    background-color: #f5c542 !important;
+    color: #121528 !important;
+    box-shadow: 0 0 8px #f5c54255;
+}
+
+.theme-aurora button:hover,
+.theme-aurora .cta-button:hover {
+    background-color: #ffe066 !important;
+    color: #0b0f1a !important;
+}
+
+.theme-aurora .cta-button.secondary {
+    background-color: #23294a !important;
+    color: #f5c542 !important;
+}
+
+.theme-aurora .cta-button.secondary:hover {
+    background-color: #181c2e !important;
+}
+
+.theme-aurora .shloka {
+    color: #ffe066 !important;
+    text-shadow: 0 0 6px #f5c54255;
+    background: none !important;
+    font-style: italic;
+}
+

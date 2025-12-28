@@ -413,3 +413,87 @@ button:hover {
   100% { transform: rotate(360deg); }
 }
 
+/* Aurora Theme Styles */
+.theme-aurora body {
+    background: linear-gradient(135deg, #0b0f1a 0%, #121528 100%) !important;
+    color: #f5c542 !important;
+}
+
+.theme-aurora .container,
+.theme-aurora .result-box,
+.theme-aurora .video-card {
+    background: rgba(18, 21, 40, 0.92) !important;
+    color: #f5c542 !important;
+    box-shadow: 0 0 24px #f5c54233, 0 0 60px #0b0f1a88;
+}
+
+.theme-aurora h1,
+.theme-aurora .title,
+.theme-aurora .wisdom-card h2,
+.theme-aurora .wisdom-card h3,
+.theme-aurora .video-card h4 {
+    color: #f5c542 !important;
+    text-shadow: 0 0 8px #f5c54255;
+}
+
+.theme-aurora input[type="text"] {
+    background-color: #181c2e !important;
+    color: #f5c542 !important;
+    border: 2px solid #f5c542 !important;
+    box-shadow: 0 0 8px #f5c54255;
+}
+
+.theme-aurora button,
+.theme-aurora button[type="submit"] {
+    background-color: #f5c542 !important;
+    color: #121528 !important;
+    box-shadow: 0 0 8px #f5c54255;
+}
+
+.theme-aurora button:hover,
+.theme-aurora button[type="submit"]:hover {
+    background-color: #ffe066 !important;
+    color: #0b0f1a !important;
+}
+
+.theme-aurora .shloka {
+    background: none !important;
+    color: #ffe066 !important;
+    text-shadow: 0 0 6px #f5c54255;
+    font-style: italic;
+}
+
+.theme-aurora .sidebar,
+.theme-aurora .topbar {
+    background: rgba(18, 21, 40, 0.96) !important;
+    color: #f5c542 !important;
+    border-bottom: 2px solid #f5c542 !important;
+}
+
+.theme-aurora .sidebar ul li a {
+    color: #f5c542 !important;
+}
+
+.theme-aurora .sidebar ul li a:hover {
+    background: #f5c542 !important;
+    color: #121528 !important;
+}
+
+.theme-aurora .spinner {
+    border-top: 8px solid #f5c542;
+    border-right: 8px solid #f5c542;
+}
+
+.theme-aurora ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #f5c542, #ffe066);
+    border: 2px solid #0b0f1a;
+}
+
+.theme-aurora ::-webkit-scrollbar-track {
+    background: #0b0f1a;
+}
+
+.theme-aurora * {
+    scrollbar-color: #f5c542 #0b0f1a;
+}
+
