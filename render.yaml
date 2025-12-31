@@ -10,7 +10,7 @@ services:
     startCommand: "gunicorn app:app"
     envVars:
       - key: MONGO_URI
-        value: mongodb+srv://kurukshetramind:myfirstproject123@cluster0.lqecbti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        value: os.getenv("MONGO_URI")
     build:
       environment:
         pythonVersion: 3.11.7
