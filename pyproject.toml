@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "kurukshetramind-backend"
 version = "1.0.0"
 description = "Mahabharat Wisdom Backend"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 
 [tool.setuptools.packages.find]
 include = ["auth", "routes"] 
