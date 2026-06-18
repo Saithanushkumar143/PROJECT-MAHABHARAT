@@ -7,6 +7,22 @@ name = "kurukshetramind-backend"
 version = "1.0.0"
 description = "Mahabharat Wisdom Backend"
 requires-python = ">=3.12"
+dependencies = [
+    "Flask==2.3.2",
+    "Flask-Cors==4.0.0",
+    "gunicorn==21.2.0",
+    "pymongo==4.7.1",
+    "dnspython==2.4.2",
+    "python-dotenv==1.0.0",
+    "numpy==1.24.3",
+    "scikit-learn==1.2.2",
+    "rapidfuzz==2.15.1",
+    "setuptools>=68.0.0",
+    "wheel>=0.40.0",
+    "build>=0.10.0",
+    "pip>=23.0.0",
+    "google-generativeai"
+]
 
 [tool.setuptools.packages.find]
 include = ["auth", "routes"] 
